@@ -17,7 +17,7 @@ export default ({ width = undefined, align = 'left', children, ...props }: Block
     switch (align) {
       case 'center':
         width ??= useSize().width
-        x = Math.floor(width / 2 - line.length / 2)
+        x = Math.round(width / 2 - line.length / 2)
         break
       case 'right':
         x = `100%-${line.length}`

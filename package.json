@@ -1,6 +1,6 @@
 {
   "name": "react-curse",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "A curses-like blazingly fast react renderer",
   "keywords": [
     "ansi",
@@ -34,8 +34,8 @@
   "type": "module",
   "scripts": {
     "start": "npx esbuild ${npm_config_src:=examples/Example.tsx} --outfile=.dist/index.js --bundle --platform=node --format=esm --external:'./node_modules/*' --sourcemap && node --enable-source-maps .dist",
-    "build": "npx esbuild index.ts --outdir=.npm --bundle --platform=node --format=esm --packages=external",
-    "postbuild": "tsc --emitDeclarationOnly --declaration --jsx react --target esnext --esModuleInterop --moduleResolution node index.ts --outdir .npm && bin/postbuild.js",
+    "npm": "npx esbuild index.ts --outdir=.npm --bundle --platform=node --format=esm --packages=external",
+    "postnpm": "tsc --emitDeclarationOnly --declaration --jsx react --target esnext --esModuleInterop --moduleResolution node index.ts --outdir .npm && bin/postnpm.js",
     "create": "npx esbuild create/Create.tsx --outfile=.create/index.js --bundle --platform=node --define:'process.env.NODE_ENV=\"production\"' --minify --tree-shaking=true",
     "postcreate": "bin/postcreate.js",
     "dist": "npx esbuild ${npm_config_src:=examples/Example.tsx} --outfile=.dist/index.cjs --bundle --platform=node --define:'process.env.NODE_ENV=\"production\"' --minify --tree-shaking=true",

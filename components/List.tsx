@@ -115,8 +115,9 @@ export default ({
   }, [initialPos.y])
 
   useEffect(() => {
-    if (pos.y > 0 && pos.y >= data.length) {
-      const newPos = { ...pos, y: data.length - 1 }
+    if (pos.y > 0 && pos.y > data.length - 1) {
+      const y = Math.max(0, data.length - 1)
+      const newPos = { ...pos, y, yo: getYO(pos.yo, data.length, y) }
       setPos(newPos)
       onChange(newPos)
     }

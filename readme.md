@@ -30,7 +30,7 @@ You can easily build full-scale terminal UI applications like:
 ## Apps that use it
 
 - [mngr](https://github.com/infely/mngr) - Database manager supports mongodb, mysql/mariadb, postgresql, sqlite and json-server
-- [nf-icons](https://github.com/infely/nf-icons) - Simple nerd fonts icons catalog that allows you to quickly find and copy it to clipboard
+- [nfi](https://github.com/infely/nfi) - Simple nerd fonts icons cheat sheet that allows you to quickly find and copy glyph to clipboard
 
 ## Installation
 

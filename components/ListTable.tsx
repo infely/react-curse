@@ -112,12 +112,13 @@ export default ({
   }, [initialPos.y, initialPos.x, initialPos.xm])
 
   useEffect(() => {
-    if (pos.y > 0 && head.length > 0 && pos.y >= data.length) {
-      const newPos = { ...pos, y: data.length - 1 }
+    if (pos.y > 0 && head.length > 0 && pos.y > data.length - 1) {
+      const y = Math.max(0, data.length - 1)
+      const newPos = { ...pos, y, yo: getYO(pos.yo, data.length, y) }
       setPos(newPos)
       onChange(newPos)
     }
-    if (pos.x > 0 && head.length > 0 && pos.x >= head.length) {
+    if (pos.x > 0 && head.length > 0 && pos.x > head.length - 1) {
       const newPos = { ...pos, x: head.length - 1 }
       setPos(newPos)
       onChange(newPos)

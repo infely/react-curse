@@ -27,4 +27,4 @@ const makeJson = () => {
 
 makeJs()
 makeJson()
-execSync('cp -r create/{template,readme.md} .create')
+execSync('cp -r create/{template,README.md} .create')
