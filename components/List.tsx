@@ -54,8 +54,8 @@ export interface ListPos {
 export interface ListBase {
   focus?: boolean
   initialPos?: ListPos
-  width?: number
   height?: number
+  width?: number
   renderItem?: Function
   scrollbar?: boolean
   scrollbarBackground?: Color
@@ -75,8 +75,8 @@ export default ({
   initialPos = { y: 0, x: 0, yo: 0, xo: 0, x1: 0, x2: 0 },
   data = [''],
   renderItem = (_: any) => <Text></Text>,
-  width = undefined,
-  height = undefined,
+  height: _height = undefined,
+  width: _width = undefined,
   scrollbar = undefined,
   scrollbarBackground = undefined,
   scrollbarColor = undefined,
@@ -85,16 +85,14 @@ export default ({
   onChange = (_: ListPos) => {},
   onSubmit = (_: ListPos) => {}
 }: List) => {
-  if (height === undefined || width === undefined) {
-    const size = useSize()
-    if (height === undefined) height = size.height
-    if (width === undefined) width = size.width
-  }
+  const size = _height === undefined || _width === undefined ? useSize() : undefined
+  const height = _height ?? size!.height
+  const width = _width ?? size!.width
 
   const [pos, setPos] = useState<ListPos>({ ...{ y: 0, x: 0, yo: 0, xo: 0, x1: 0, x2: 0 }, ...initialPos })
 
   const isScrollbarRequired = useMemo(() => {
-    return scrollbar === undefined ? data.length > (height as number) : scrollbar
+    return scrollbar === undefined ? data.length > height : scrollbar
   }, [scrollbar, data.length, height])
 
   useEffect(() => {
@@ -106,7 +104,7 @@ export default ({
     }
     if (y !== pos.y) {
       y = Math.max(0, y)
-      newPos = { ...(newPos || pos), y, yo: getYO(pos.yo, (height as number) - 1, y) }
+      newPos = { ...(newPos || pos), y, yo: getYO(pos.yo, height - 1, y) }
     }
     if (newPos) {
       setPos(newPos)
@@ -127,7 +125,7 @@ export default ({
     (input: string) => {
       if (!focus) return
 
-      inputHandler(vi, pos, setPos, height as number, data.length, onChange)(input)
+      inputHandler(vi, pos, setPos, height, data.length, onChange)(input)
 
       if (input === '\x0d' /* cr */) onSubmit(pos)
     },
@@ -137,7 +135,7 @@ export default ({
   return (
     <Text width={width} height={height}>
       {data
-        .filter((_: any, index: number) => index >= pos.yo && index < (height as number) + pos.yo)
+        .filter((_: any, index: number) => index >= pos.yo && index < height + pos.yo)
         .map((row: any, index: number) => (
           <Text key={index} height={1} block>
             {renderItem({

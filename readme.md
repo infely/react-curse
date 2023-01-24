@@ -114,6 +114,7 @@ ReactCurse.render(<App />)
   - [`<ListTable>`](#listtable)
   - [`<Scrollbar>`](#Scrollbar)
   - [`<Separator>`](#separator)
+  - [`<Spinner>`](#spinner)
   - [`<View>`](#view)
 - [Hooks](#hooks)
   - [`useAnimation`](#useanimation), [`useTrail`](#usetrail), [`<Trail>`](#trail)
@@ -213,7 +214,9 @@ Makes it active
 <Input background="#404040" height={1} width={8} />
 ```
 
-![](media/Input.gif)
+![](media/Input-1.gif)
+
+![](media/Input-2.gif)
 
 ### `<Banner>`
 
@@ -464,6 +467,21 @@ Draws a vertical or horizontal line
 
 ![](media/Separator.png)
 
+### `<Spinner>`
+
+Draws an animated spinner
+
+##### children?: `string`
+
+#### Examples
+
+```jsx
+<Spinner block />
+<Spinner color="BrightGreen">-\|/</Spinner>
+```
+
+![](media/Spinner.gif)
+
 ### `<View>`
 
 Creates a scrollable viewport\
@@ -674,6 +692,22 @@ Updates when size is changing
 
 ```jsx
 useSize() // { height: 24, width: 80 }
+```
+
+### `useWordWrap`
+
+##### (text: `string`, width?: `number`) => `object`
+
+Gives your text a word wrap
+
+#### return
+
+##### height, width: `number`
+
+#### Examples
+
+```jsx
+useWordWrap('hello world', 5) // hello\nworld
 ```
 
 ## API

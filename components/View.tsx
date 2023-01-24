@@ -12,8 +12,8 @@ interface View extends TextProps {
   children: any
 }
 
-export default ({ focus = true, height, scrollbar = undefined, children, ...props }: View) => {
-  height ??= useSize().height
+export default ({ focus = true, height: _height, scrollbar = undefined, children, ...props }: View) => {
+  const height = _height ?? useSize().height
   const [yo, setYo] = useState(0)
   const { height: length } = useChildrenSize(children)
 
@@ -22,9 +22,9 @@ export default ({ focus = true, height, scrollbar = undefined, children, ...prop
       if (!focus) return
 
       if (['k', '\x1b\x5b\x41' /* up */].includes(input) && yo > 0) setYo(yo - 1)
-      if (['j', '\x1b\x5b\x42' /* down */].includes(input) && yo < length - (height as number)) setYo(yo + 1)
+      if (['j', '\x1b\x5b\x42' /* down */].includes(input) && yo < length - height) setYo(yo + 1)
       if (['g', '\x1b\x5b\x31\x7e' /* home */].includes(input) && yo > 0) setYo(0)
-      if (['G', '\x1b\x5b\x34\x7e' /* end */].includes(input) && yo < length - (height as number)) setYo(length - (height as number))
+      if (['G', '\x1b\x5b\x34\x7e' /* end */].includes(input) && yo < length - height) setYo(length - height)
     },
     [focus, yo, length, height]
   )
@@ -32,7 +32,7 @@ export default ({ focus = true, height, scrollbar = undefined, children, ...prop
   const isScrollbarRequired = scrollbar === undefined ? length > height : scrollbar
 
   return (
-    <Text {...props}>
+    <Text height={height} {...props}>
       <Text y={-yo}>{children}</Text>
       {isScrollbarRequired && (
         <Text y={0} x="100%-1">

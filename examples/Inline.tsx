@@ -1,14 +1,17 @@
 import React from 'react'
-import ReactCurse, { Bar, Text, useAnimation, useSize } from '..'
+import ReactCurse, { Text } from '..'
 
 const App = () => {
-  const { width } = useSize()
-  const { interpolate } = useAnimation(1000)
-
   return (
     <>
-      <Text>Animating...</Text>
-      <Bar type="horizontal" x={width - 8} width={interpolate(0, 8)} />
+      <Text block>Line 1</Text>
+      <Text block></Text>
+      <Text block>Line 3 33</Text>
+      <Text block></Text>
+      <Text block></Text>
+      <Text block></Text>
+      <Text block></Text>
+      <Text>Line 4</Text>
     </>
   )
 }

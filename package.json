@@ -1,6 +1,6 @@
 {
   "name": "react-curse",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A curses-like blazingly fast react renderer",
   "keywords": [
     "ansi",
@@ -8,6 +8,7 @@
     "blessed",
     "cli",
     "console",
+    "cursed",
     "curses",
     "gui",
     "ncurses",
@@ -42,7 +43,7 @@
     "logger": "bin/logger.js"
   },
   "dependencies": {
-    "esbuild": "^0.17.3",
+    "esbuild": "^0.17.4",
     "react": "^18.2.0",
     "react-reconciler": "^0.29.0"
   },

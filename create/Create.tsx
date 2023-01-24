@@ -3,7 +3,7 @@ import { copyFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { cwd } from 'node:process'
 import React, { useState } from 'react'
-import ReactCurse, { Input, Text, useAnimation, useExit, useInput } from '..'
+import ReactCurse, { Input, Spinner, Text, useAnimation, useExit, useInput } from '..'
 
 const pwd = cwd()
 
@@ -26,20 +26,6 @@ const install = (value: string) => {
       resolve(true)
     })
   })
-}
-
-const Spinner = ({ text }) => {
-  const frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
-
-  const { ms, interpolate } = useAnimation(Infinity)
-  const frame = Math.floor(interpolate(0, frames.length, 0, 500, ms % 500))
-  const color = 255 - Math.abs(Math.floor(interpolate(-16, 16, 0, 1500, ms % 1500)))
-
-  return (
-    <>
-      <Text color={color}>{frames[frame]}</Text> {text}
-    </>
-  )
 }
 
 const Logo = ({ text }) => {
@@ -75,7 +61,9 @@ const App = () => {
 
   return (
     <>
+      <Text block />
       <Logo text="Welcome to ReactCurse!" />
+      <Text block />
       <Text block>
         {focus === 1 && <Text>? </Text>}
         {focus !== 1 && <Text color="Green">{'✔ '}</Text>}
@@ -86,7 +74,11 @@ const App = () => {
       </Text>
       {focus >= 2 && (
         <Text block>
-          {focus === 2 && <Spinner text="Installing..." />}
+          {focus === 2 && (
+            <>
+              <Spinner /> Installing...
+            </>
+          )}
           {focus > 2 && (
             <>
               <Text color="Green">{'✔ '}</Text>
@@ -97,12 +89,14 @@ const App = () => {
       )}
       {focus === 3 && (
         <>
+          <Text block />
           <Text block>
             <Text dim>{'# '}</Text>cd {value}
           </Text>
           <Text block>
             <Text dim>{'# '}</Text>npm start
           </Text>
+          <Text block />
           <Text color="Green">Enjoy!</Text>
         </>
       )}

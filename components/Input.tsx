@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Renderer from '../renderer'
-import Text, { TextProps } from './Text'
+import Text, { type TextProps } from './Text'
 import useInput from '../hooks/useInput'
 import { Color } from '../screen'
 
@@ -181,7 +181,8 @@ export default ({
       valueLine = value.substring(currentLine + 1, nextLine !== -1 ? pos + nextLine : value.length)
     }
 
-    if (!multiline && offset.current.x + valueLine.length + 1 > width) offset.current.x = valueLine.length - width + 1
+    if (!multiline && offset.current.x + valueLine.length + 1 > width)
+      offset.current.x = Math.max(0, valueLine.length - width + 1)
     if (offset.current.x < posLine - width + 1) offset.current.x = posLine - width + 1
     if (offset.current.x > posLine) offset.current.x = posLine
 

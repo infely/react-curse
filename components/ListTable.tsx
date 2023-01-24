@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import Text from './Text'
 import Scrollbar from './Scrollbar'
-import { getYO, inputHandler, ListBase, ListPos } from './List'
+import { getYO, inputHandler, type ListBase, type ListPos } from './List'
 import useInput from '../hooks/useInput'
 import useSize from '../hooks/useSize'
 
@@ -27,8 +27,8 @@ export default ({
   mode = 'cell',
   focus = true,
   initialPos = { y: 0, x: 0, yo: 0, xo: 0, x1: 0, x2: 0 },
-  width = undefined,
-  height = undefined,
+  height: _height = undefined,
+  width: _width = undefined,
   head = [''],
   renderHead = (_: any) => <Text></Text>,
   data = [['']],
@@ -41,16 +41,14 @@ export default ({
   onChange = (_pos: ListPos) => {},
   onSubmit = (_pos: ListPos) => {}
 }: ListTable) => {
-  if (height === undefined || width === undefined) {
-    const size = useSize()
-    if (height === undefined) height = size.height
-    if (width === undefined) width = size.width
-  }
+  const size = _height === undefined || _width === undefined ? useSize() : undefined
+  const height = _height ?? size!.height
+  const width = _width ?? size!.width
 
   const [pos, setPos] = useState<ListPos>({ ...{ y: 0, x: 0, yo: 0, xo: 0, x1: 0, x2: 0 }, ...initialPos })
 
   const isScrollbarRequired = useMemo(() => {
-    return scrollbar === undefined ? data.length > (height as number) - 1 : scrollbar
+    return scrollbar === undefined ? data.length > height - 1 : scrollbar
   }, [scrollbar, data.length, height])
 
   const widths = useMemo(() => {
@@ -65,7 +63,7 @@ export default ({
       .map((i, index) => i + (index <= head.length - 2 ? 2 : 0))
 
     const sum = widths.reduce((acc, i) => acc + i, 0)
-    if (sum >= (width as number) - 1) return widths.map(i => Math.min(32, i))
+    if (sum >= width - 1) return widths.map(i => Math.min(32, i))
 
     // const left = width - sum - 2
     // if (sum > 0) widths[widths.length - 1] += left
@@ -75,11 +73,11 @@ export default ({
 
   const isCropped = useMemo(() => {
     const sum = widths.reduce((acc, i) => acc + i, 0)
-    return sum - pos.xo >= (width as number) + (isScrollbarRequired ? -1 : 0)
+    return sum - pos.xo >= width + (isScrollbarRequired ? -1 : 0)
   }, [widths, pos.xo, width, isScrollbarRequired])
 
   const dataFiltered = useMemo(() => {
-    return data.filter((_: any, index: number) => index >= pos.yo && index < (height as number) + pos.yo)
+    return data.filter((_: any, index: number) => index >= pos.yo && index < height + pos.yo)
   }, [data, pos.yo, height])
 
   useEffect(() => {
@@ -91,11 +89,11 @@ export default ({
     }
     if (y !== pos.y) {
       y = Math.max(0, y)
-      newPos = { ...(newPos || pos), y, yo: getYO(pos.yo, (height as number) - 1, y) }
+      newPos = { ...(newPos || pos), y, yo: getYO(pos.yo, height - 1, y) }
     }
     if (initialPos.xm) {
       let acc = 0
-      x = widths.map(i => (acc += i)).findIndex(i => i >= Math.min(acc, (initialPos.xm as number) + pos.xo))
+      x = widths.map(i => (acc += i)).findIndex(i => i >= Math.min(acc, initialPos.xm + pos.xo))
     }
     if (x > 0 && x >= head.length) {
       x = head.length - 1
@@ -103,7 +101,7 @@ export default ({
     }
     if (x !== pos.x) {
       const { x1, x2 } = getX(x, widths)
-      newPos = { ...(newPos || pos), x, xo: getXO(pos.xo, (width as number) + (isScrollbarRequired ? -1 : 0), x1, x2) }
+      newPos = { ...(newPos || pos), x, xo: getXO(pos.xo, width + (isScrollbarRequired ? -1 : 0), x1, x2) }
     }
     if (newPos) {
       setPos(newPos)
@@ -129,7 +127,7 @@ export default ({
     (input: string) => {
       if (!focus) return
 
-      inputHandler(vi, pos, setPos, (height as number) - 1, data.length, onChange)(input)
+      inputHandler(vi, pos, setPos, height - 1, data.length, onChange)(input)
 
       let x: undefined | number
       switch (mode) {
@@ -140,7 +138,7 @@ export default ({
           if (vi && input === '$' && pos.x < head.length - 1) x = head.length - 1
           if (x !== undefined) {
             const { x1, x2 } = getX(x, widths)
-            const xo = getXO(pos.xo, (width as number) + (isScrollbarRequired ? -1 : 0), x1, x2)
+            const xo = getXO(pos.xo, width + (isScrollbarRequired ? -1 : 0), x1, x2)
             const newPos = { ...pos, x, xo, x1, x2 }
             setPos(newPos)
             onChange(newPos)

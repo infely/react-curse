@@ -204,9 +204,10 @@ class Term {
         if (x === 0 && y === this.cursor.y + 1) {
           result += '\n'
         } else {
-          if (!this.fullscreen && y === this.cursor.y + 1 && y > this.maxCursor.y) {
-            result += '\n'
-            this.cursor = { y: this.cursor.y + 1, x: 0 }
+          if (!this.fullscreen && y > this.cursor.y && y > this.maxCursor.y) {
+            const diff = y - this.maxCursor.y
+            result += '\n'.repeat(diff)
+            this.cursor = { y: this.cursor.y + diff, x: 0 }
           }
 
           if (y > this.cursor.y) {
