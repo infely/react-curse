@@ -493,6 +493,8 @@ Vim shortcuts are supported
 
 ##### scrollbar?: `boolean`
 
+##### vi?: `boolean` = `true`
+
 ##### children: `any`
 
 #### Examples

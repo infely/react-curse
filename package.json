@@ -1,6 +1,6 @@
 {
   "name": "react-curse",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A curses-like blazingly fast react renderer",
   "keywords": [
     "ansi",

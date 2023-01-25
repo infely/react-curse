@@ -9,10 +9,11 @@ interface View extends TextProps {
   focus?: boolean
   height?: number
   scrollbar?: boolean
+  vi?: boolean
   children: any
 }
 
-export default ({ focus = true, height: _height, scrollbar = undefined, children, ...props }: View) => {
+export default ({ focus = true, height: _height, scrollbar = undefined, vi = true, children, ...props }: View) => {
   const height = _height ?? useSize().height
   const [yo, setYo] = useState(0)
   const { height: length } = useChildrenSize(children)
@@ -21,10 +22,18 @@ export default ({ focus = true, height: _height, scrollbar = undefined, children
     (input: string) => {
       if (!focus) return
 
-      if (['k', '\x1b\x5b\x41' /* up */].includes(input) && yo > 0) setYo(yo - 1)
-      if (['j', '\x1b\x5b\x42' /* down */].includes(input) && yo < length - height) setYo(yo + 1)
-      if (['g', '\x1b\x5b\x31\x7e' /* home */].includes(input) && yo > 0) setYo(0)
-      if (['G', '\x1b\x5b\x34\x7e' /* end */].includes(input) && yo < length - height) setYo(length - height)
+      if (((vi && input === 'k') || input === '\x1b\x5b\x41') /* up */ && yo > 0) setYo(yo - 1)
+      if (((vi && input === 'j') || input === '\x1b\x5b\x42') /* down */ && yo < length - height) setYo(yo + 1)
+      if (((vi && input === '\x02') /* C-b */ || input === '\x1b\x5b\x35\x7e') /* pageup */ && yo > 0)
+        setYo(Math.max(0, yo - height))
+      if (((vi && input === '\x06') /* C-f */ || input === '\x1b\x5b\x36\x7e') /* pagedown */ && yo < length - height)
+        setYo(Math.min(length - height, yo + height))
+      if (vi && input === '\x15' /* C-u */ && yo > 0) setYo(Math.max(0, yo - Math.floor(height / 2)))
+      if (vi && input === '\x04' /* C-d */ && yo < length - height)
+        setYo(Math.min(length - height, yo + Math.floor(height / 2)))
+      if (((vi && input === 'g') || input === '\x1b\x5b\x31\x7e') /* home */ && yo > 0) setYo(0)
+      if (((vi && input === 'G') || input === '\x1b\x5b\x34\x7e') /* end */ && yo < length - height)
+        setYo(length - height)
     },
     [focus, yo, length, height]
   )
