@@ -1,6 +1,6 @@
 {
   "name": "react-curse",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A curses-like blazingly fast react renderer",
   "keywords": [
     "ansi",
@@ -43,12 +43,12 @@
     "logger": "bin/logger.js"
   },
   "dependencies": {
-    "esbuild": "^0.17.8",
+    "esbuild": "^0.17.11",
     "react": "^18.2.0",
     "react-reconciler": "^0.29.0"
   },
   "devDependencies": {
-    "@types/node": "^18.13.0",
+    "@types/node": "^18.15.2",
     "@types/react": "^18.0.28",
     "@types/react-reconciler": "^0.28.2"
   }
