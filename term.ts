@@ -167,6 +167,7 @@ class Term {
     for (let y = 0; y < buffer.length; y++) {
       const line = buffer[y]
       const prevLine = this.prevBuffer?.[y]
+      let includesEmoji = false
       let includesIcon = false
 
       const diffLine = isResized
@@ -199,6 +200,7 @@ class Term {
       Object.entries(chunks).map(([index, value]) => {
         const [str, strWithModifiers] = value as [string, string]
         const x = parseInt(index)
+        if (/\p{Emoji}/u.test(str)) includesEmoji = true
         if (!includesIcon && str.split('').find((i: string) => this.isIcon(i))) includesIcon = true
 
         if (x === 0 && y === this.cursor.y + 1) {
@@ -219,15 +221,19 @@ class Term {
           }
 
           if (x > this.cursor.x) {
-            if (includesIcon) {
+            if (includesEmoji || includesIcon) {
               result += `${ESC}[G${ESC}[${x > 1 ? x : ''}C` // moves cursor to column, moves cursor right
             } else {
               const diff = x - this.cursor.x
               result += `${ESC}[${diff > 1 ? diff : ''}C` // moves cursor right
             }
           } else if (x < this.cursor.x) {
-            const diff = this.cursor.x - x
-            result += `${ESC}[${diff > 1 ? diff : ''}D` // moves cursor left
+            if (includesEmoji) {
+              result += `${ESC}[G${ESC}[${x > 1 ? x : ''}C` // moves cursor left
+            } else {
+              const diff = this.cursor.x - x
+              result += `${ESC}[${diff > 1 ? diff : ''}D` // moves cursor left
+            }
           }
         }
         result += strWithModifiers
