@@ -7,7 +7,7 @@ const App = () => {
   const { ms, interpolate } = useAnimation(2000)
 
   const lines = useMemo(() => {
-    return [...Array(width / 2)].map(_ => ({
+    return [...Array(Math.floor(width / 2))].map(_ => ({
       h: Math.floor(Math.random() * height),
       t: Math.floor(Math.random() * 250) + 250,
       c: 255 - Math.floor(Math.random() * 16)
@@ -41,7 +41,7 @@ const App2 = () => {
   const { height, width } = useSize()
 
   const lines = useMemo(() => {
-    return [...Array(width / 2)].map(_ => ({
+    return [...Array(Math.floor(width / 2))].map(_ => ({
       h: Math.floor(Math.random() * height),
       c: 255 - Math.floor(Math.random() * 16)
     }))

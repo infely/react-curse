@@ -44,8 +44,8 @@ const Tasks = ({ focus, setFocus }) => {
         height={height - 3}
         width={width}
         data={useTrail(1000 / 30, tasks, 'id')}
-        renderItem={({ item, isSelected }) => {
-          return <Task title={item.title} completed={item.completed} selected={isSelected} />
+        renderItem={({ item, selected }) => {
+          return <Task title={item.title} completed={item.completed} selected={selected} />
         }}
         onChange={setPos}
       />

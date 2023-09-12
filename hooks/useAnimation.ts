@@ -64,7 +64,7 @@ export default (time = Infinity, fps = 60): useAnimation => {
   if (time <= 0 || fps <= 0) return { ms: 0, interpolate: i => i, interpolateColor: i => i }
 
   const at = useRef(Date.now())
-  const interval = useRef<NodeJS.Timer>()
+  const interval = useRef<NodeJS.Timeout>()
   const [ms, setMs] = useState(0)
 
   useEffect(() => {
