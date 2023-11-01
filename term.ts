@@ -212,15 +212,15 @@ class Term {
             this.cursor = { y: this.cursor.y + diff, x: 0 }
           }
 
-          if (y > this.cursor.y) {
+          if (y !== this.cursor.y && x !== this.cursor.x) {
+            result += `${ESC}[${y + 1};${x + 1}H` // moves cursor to position
+          } else if (y > this.cursor.y) {
             const diff = y - this.cursor.y
             result += `${ESC}[${diff > 1 ? diff : ''}B` // moves cursor down
           } else if (y < this.cursor.y) {
             const diff = this.cursor.y - y
             result += `${ESC}[${diff > 1 ? diff : ''}A` // moves cursor up
-          }
-
-          if (x > this.cursor.x) {
+          } else if (x > this.cursor.x) {
             if (includesEmoji || includesIcon) {
               result += `${ESC}[G${ESC}[${x > 1 ? x : ''}C` // moves cursor to column, moves cursor right
             } else {
@@ -240,10 +240,10 @@ class Term {
 
         this.cursor = { x: x + str.length, y }
       })
-      if (this.cursor.x > buffer[y].length - 1) {
-        this.cursor = { x: 0, y: 0 }
-        result += `${ESC}[H` // moves cursor to home position
-      }
+      // if (this.cursor.x > buffer[y].length - 1) {
+      //   this.cursor = { x: 0, y: 0 }
+      //   result += `${ESC}[H` // moves cursor to home position
+      // }
       if (this.cursor.x > this.maxCursor.x) this.maxCursor.x = this.cursor.x
       if (this.cursor.y > this.maxCursor.y) this.maxCursor.y = this.cursor.y
     }

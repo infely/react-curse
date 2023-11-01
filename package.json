@@ -1,6 +1,6 @@
 {
   "name": "react-curse",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "A curses-like blazingly fast react renderer",
   "keywords": [
     "ansi",
@@ -50,6 +50,7 @@
   "devDependencies": {
     "@types/node": "^20.6.0",
     "@types/react": "^18.2.21",
-    "@types/react-reconciler": "^0.28.4"
+    "@types/react-reconciler": "^0.28.4",
+    "typescript": "^5.2.2"
   }
 }
