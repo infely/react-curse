@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import Text from './Text'
-import Scrollbar from './Scrollbar'
-import { getYO, inputHandler, type ListBase, type ListPos } from './List'
 import useInput from '../hooks/useInput'
 import useSize from '../hooks/useSize'
+import { getYO, inputHandler, type ListBase, type ListPos } from './List'
+import Scrollbar from './Scrollbar'
+import Text from './Text'
+import React, { useEffect, useMemo, useState } from 'react'
 
 const getX = (index: number, widths: number[]) => {
   const [x1, x2] = widths.reduce((acc, i, k) => [acc[0] + (k < index ? i : 0), acc[1] + (k <= index ? i : 0)], [0, 0])
@@ -16,14 +16,14 @@ const getXO = (offsetX: number, limit: number, x1: number, x2: number) => {
   return offsetX
 }
 
-interface ListTable extends ListBase {
+interface ListTableProps extends ListBase {
   mode?: 'cell' | 'row'
   head?: any[]
-  renderHead?: Function
+  renderHead?: (_: any) => React.ReactNode
   data?: any[][]
 }
 
-export default ({
+export default function List({
   mode = 'cell',
   focus = true,
   initialPos = { y: 0, x: 0, yo: 0, xo: 0, x1: 0, x2: 0 },
@@ -40,7 +40,7 @@ export default ({
   pass = undefined,
   onChange = (_pos: ListPos) => {},
   onSubmit = (_pos: ListPos) => {}
-}: ListTable) => {
+}: ListTableProps) {
   const size = _height === undefined || _width === undefined ? useSize() : undefined
   const height = _height ?? size!.height
   const width = _width ?? size!.width
@@ -93,7 +93,7 @@ export default ({
     }
     if (initialPos.xm) {
       let acc = 0
-      x = widths.map(i => (acc += i)).findIndex(i => i >= Math.min(acc, initialPos.xm + pos.xo))
+      x = widths.map(i => (acc += i)).findIndex(i => i >= Math.min(acc, (initialPos.xm ?? 0) + pos.xo))
     }
     if (x > 0 && x >= head.length) {
       x = head.length - 1

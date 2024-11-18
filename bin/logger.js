@@ -10,7 +10,9 @@ const filename = join(tmpdir(), 'node-log.sock')
 
 try {
   rmSync(filename)
-} catch (e) {}
+} catch {
+  //
+}
 
 createServer(stream => {
   stream.on('data', data => {

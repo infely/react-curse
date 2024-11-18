@@ -1,8 +1,7 @@
 import { type ReactElement, useEffect, useState } from 'react'
 
 const render = (element: ReactElement | ReactElement[] | any) => {
-  if (Array.isArray(element))
-    return element.map(i => render(i)).join('')
+  if (Array.isArray(element)) return element.map(i => render(i)).join('')
 
   const { children } = (element as ReactElement).props ?? { children: element }
   if (Array.isArray(children) || children.props) return render(children)

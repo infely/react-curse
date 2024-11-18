@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import Text, { type TextProps } from './Text'
-import Scrollbar from './Scrollbar'
 import useChildrenSize from '../hooks/useChildrenSize'
 import useInput from '../hooks/useInput'
 import useSize from '../hooks/useSize'
+import Scrollbar from './Scrollbar'
+import Text, { type TextProps } from './Text'
+import React, { useState } from 'react'
 
-interface View extends TextProps {
+interface ViewProps extends TextProps {
   focus?: boolean
   height?: number
   scrollbar?: boolean
@@ -13,7 +13,14 @@ interface View extends TextProps {
   children: any
 }
 
-export default ({ focus = true, height: _height, scrollbar = undefined, vi = true, children, ...props }: View) => {
+export default function View({
+  focus = true,
+  height: _height,
+  scrollbar = undefined,
+  vi = true,
+  children,
+  ...props
+}: ViewProps) {
   const height = _height ?? useSize().height
   const [yo, setYo] = useState(0)
   const { height: length } = useChildrenSize(children)

@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
-import Renderer from '../renderer'
-import Text, { type TextProps } from './Text'
 import useInput from '../hooks/useInput'
+import Renderer from '../renderer'
 import { Color } from '../screen'
+import Text, { type TextProps } from './Text'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 const mutate = (value: string, pos: number, str: string, multiline: boolean): [string, number, string | null] => {
   const edit = (value: string, pos: number, callback: (string: string) => string) => {
@@ -15,72 +15,99 @@ const mutate = (value: string, pos: number, str: string, multiline: boolean): [s
   for (const input of arr) {
     switch (input) {
       case '\x01': // C-a
-      case '\x1b\x5b\x31\x7e': // home
+      case '\x1b\x5b\x31\x7e': {
+        // home
         if (pos > 0) pos = 0
         break
+      }
       case '\x05': // C-e
-      case '\x1b\x5b\x34\x7e': // end
+      case '\x1b\x5b\x34\x7e': {
+        // end
         if (pos < value.length) pos = value.length
         break
+      }
       case '\x02': // C-b
-      case '\x1b\x5b\x44': // left
+      case '\x1b\x5b\x44': {
+        // left
         if (pos > 0) pos -= 1
         break
+      }
       case '\x06': // C-f
-      case '\x1b\x5b\x43': // right
+      case '\x1b\x5b\x43': {
+        // right
         if (pos < value.length) pos += 1
         break
-      case '\x1b': // esc
+      }
+      case '\x1b': {
+        // esc
         return [value, pos, 'cancel']
+      }
       case '\x04': // C-d
-      case '\x0d': // cr
+      case '\x0d': {
+        // cr
         if (input === '\x0d' && multiline) {
           value = edit(value, pos, i => i + '\n')
           pos += 1
           break
         }
         return [value, pos, 'submit']
+      }
       case '\x08': // C-h
-      case '\x7f': // backspace
+      case '\x7f': {
+        // backspace
         if (pos < 1) break
         value = edit(value, pos, i => i.substring(0, i.length - 1))
         pos -= 1
         break
-      case '\x15': // C-u
+      }
+      case '\x15': {
+        // C-u
         if (pos < 1) break
         value = edit(value, pos, () => '')
         pos = 0
         break
-      case '\x0b': // C-k
+      }
+      case '\x0b': {
+        // C-k
         if (pos > value.length - 1) break
         value = value.substring(0, pos)
         break
+      }
       case '\x1b\x62': // M-b
-      case '\x17': // C-w
+      case '\x17': {
+        // C-w
         if (pos < 1) break
         const index = value.substring(0, pos).trimEnd().lastIndexOf(' ')
         if (input === '\x17') value = edit(value, pos, i => (index !== -1 ? i.substring(0, index + 1) : ''))
         pos = Math.max(0, index + 1)
         break
-      case '\x1b\x66': // M-f
+      }
+      case '\x1b\x66': {
+        // M-f
         if (pos > value.length - 1) break
         const nextWordIndex = value.substring(pos).match(/\s(\w)/)?.index ?? -1
         pos = nextWordIndex === -1 ? value.length : pos + nextWordIndex + 1
         break
-      case '\x1b\x64': // M-d
+      }
+      case '\x1b\x64': {
+        // M-d
         const nextEndIndex = value.substring(pos).match(/\w(\b)/)?.index ?? -1
         value = value.substring(0, pos) + (nextEndIndex !== -1 ? value.substring(pos + nextEndIndex + 1) : '')
         break
-      case '\x1b\x5b\x41': // up
+      }
+      case '\x1b\x5b\x41': {
+        // up
         if (!multiline) break
 
         const currentLine = value.substring(0, pos).lastIndexOf('\n')
         if (currentLine === -1) break
 
-        let targetLine = value.substring(0, currentLine).lastIndexOf('\n')
+        const targetLine = value.substring(0, currentLine).lastIndexOf('\n')
         pos = targetLine + Math.min(pos - currentLine, currentLine - targetLine)
         break
-      case '\x1b\x5b\x42': // down
+      }
+      case '\x1b\x5b\x42': {
+        // down
         if (!multiline) break
 
         let targetLine_ = value.substring(pos).indexOf('\n')
@@ -92,16 +119,18 @@ const mutate = (value: string, pos: number, str: string, multiline: boolean): [s
         const currentLine_ = value.substring(0, pos).lastIndexOf('\n')
         pos = targetLine_ + Math.min(pos - currentLine_ - 1, nextLine - targetLine_ - 1)
         break
-      default:
+      }
+      default: {
         if (input.charCodeAt(0) < 32) break
         value = edit(value, pos, i => i + input)
         pos += 1
+      }
     }
   }
   return [value, pos, null]
 }
 
-interface Input extends TextProps {
+interface InputProps extends TextProps {
   focus?: boolean
   type?: 'text' | 'password' | 'hidden'
   initialValue?: string
@@ -111,7 +140,7 @@ interface Input extends TextProps {
   onSubmit?: (_: any) => void
 }
 
-export default ({
+export default function Input({
   focus = true,
   type = 'text',
   initialValue = '',
@@ -122,7 +151,7 @@ export default ({
   width = undefined,
   height = undefined,
   ...props
-}: Input) => {
+}: InputProps) {
   const [value, setValue] = useState(initialValue)
   const [pos, setPos] = useState(initialValue.length)
   const offset = useRef({ y: 0, x: 0 })

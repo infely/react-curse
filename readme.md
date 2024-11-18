@@ -57,7 +57,7 @@ ReactCurse.render(<App text="hello world" />)
 
 ```jsx
 import React, { useState } from 'react'
-import ReactCurse, { Text, useInput, useExit } from 'react-curse'
+import ReactCurse, { Text, useInput, exit } from 'react-curse'
 
 const App = () => {
   const [counter, setCounter] = useState(0)
@@ -66,7 +66,7 @@ const App = () => {
     input => {
       if (input === 'k') setCounter(counter + 1)
       if (input === 'j') setCounter(counter - 1)
-      if (input === 'q') useExit()
+      if (input === 'q') exit()
     },
     [counter]
   )
@@ -118,10 +118,8 @@ ReactCurse.render(<App />)
   - [`<View>`](#view)
 - [Hooks](#hooks)
   - [`useAnimation`](#useanimation), [`useTrail`](#usetrail), [`<Trail>`](#trail)
-  - [`useBell`](#usebell)
   - [`useChildrenSize`](#usechildrensize)
   - [`useClipboard`](#useclipboard)
-  - [`useExit`](#useexit)
   - [`useInput`](#useinput)
   - [`useMouse`](#usemouse)
   - [`useSize`](#usesize)
@@ -129,6 +127,8 @@ ReactCurse.render(<App />)
 - [API](#api)
   - [`render`](#render)
   - [￼`inline`￼](#inline)
+  - [`bell`](#bell)
+  - [`exit`](#exit)
 
 ## Components
 
@@ -580,16 +580,6 @@ You can pass it to `data` property of `<List>` component for example
 <List data={useTrail(items)} />
 ```
 
-### `useBell`
-
-#### () => `void`
-
-Makes a terminal bell
-
-```jsx
-useBell() // ding
-```
-
 ### `useChildrenSize`
 
 ##### (value: `string`) => `object`
@@ -624,20 +614,6 @@ Allows you to work with the system clipboard
 const { getClipboard, setClipboard } = useClipboard()
 const string = getClipboard()
 setClipboard(string.toUpperCase()) // copied
-```
-
-### `useExit`
-
-##### (code: `number` = `0`) => `void`
-
-Allows you to exit from an application that waits for user input or has timers
-
-#### Examples
-
-```jsx
-useInput(input => {
-  if (input === 'q') useExit()
-})
 ```
 
 ### `useInput`
@@ -722,3 +698,27 @@ Renders your fullscreen application to `stdout`
 ### `inline` (children: `JSX.Element`) => `void`
 
 Renders your inline application to `stdout`
+
+### `bell`
+
+#### () => `void`
+
+Makes a terminal bell
+
+```jsx
+bell() // ding
+```
+
+### `exit`
+
+##### (code: `number` = `0`) => `void`
+
+Allows you to exit from an application that waits for user input or has timers
+
+#### Examples
+
+```jsx
+useInput(input => {
+  if (input === 'q') exit()
+})
+```

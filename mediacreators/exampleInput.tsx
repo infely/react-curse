@@ -10,7 +10,7 @@ Type@250ms kkjkkkjjjj
 Sleep 250ms */
 
 import React, { useState } from 'react'
-import ReactCurse, { Text, useExit, useInput } from '..'
+import ReactCurse, { Text, useInput } from '..'
 
 const App = () => {
   const [counter, setCounter] = useState(0)
@@ -19,7 +19,7 @@ const App = () => {
     input => {
       if (input === 'k') setCounter(counter + 1)
       if (input === 'j') setCounter(counter - 1)
-      if (input === 'q') useExit()
+      if (input === 'q') ReactCurse.exit()
     },
     [counter]
   )

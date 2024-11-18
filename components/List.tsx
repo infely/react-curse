@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import Text from './Text'
-import Scrollbar from './Scrollbar'
 import useInput from '../hooks/useInput'
 import useSize from '../hooks/useSize'
 import { Color } from '../screen'
+import Scrollbar from './Scrollbar'
+import Text from './Text'
+import React, { useEffect, useMemo, useState } from 'react'
 
 export const getYO = (offset: number, limit: number, y: number) => {
   if (offset <= y - limit) return y - limit + 1
@@ -12,7 +12,14 @@ export const getYO = (offset: number, limit: number, y: number) => {
 }
 
 export const inputHandler =
-  (vi: Boolean, pos: ListPos, setPos: Function, height: number, dataLength: number, onChange: Function) =>
+  (
+    vi: boolean,
+    pos: ListPos,
+    setPos: (_: any) => void,
+    height: number,
+    dataLength: number,
+    onChange: (_: any) => void
+  ) =>
   (input: string) => {
     let y: undefined | number
     let yo: undefined | number
@@ -56,7 +63,7 @@ export interface ListBase {
   initialPos?: ListPos
   height?: number
   width?: number
-  renderItem?: Function
+  renderItem?: (_: any) => React.ReactNode
   scrollbar?: boolean
   scrollbarBackground?: Color
   scrollbarColor?: Color
@@ -66,11 +73,11 @@ export interface ListBase {
   onSubmit?: (pos: ListPos) => void
 }
 
-interface List extends ListBase {
+interface ListProps extends ListBase {
   data?: any[]
 }
 
-export default ({
+export default function List({
   focus = true,
   initialPos = { y: 0, x: 0, yo: 0, xo: 0, x1: 0, x2: 0 },
   data = [''],
@@ -84,7 +91,7 @@ export default ({
   pass = undefined,
   onChange = (_: ListPos) => {},
   onSubmit = (_: ListPos) => {}
-}: List) => {
+}: ListProps) {
   const size = _height === undefined || _width === undefined ? useSize() : undefined
   const height = _height ?? size!.height
   const width = _width ?? size!.width

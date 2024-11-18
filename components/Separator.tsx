@@ -1,14 +1,14 @@
-import React from 'react'
-import Text, { type TextProps } from './Text'
 import useSize from '../hooks/useSize'
+import Text, { type TextProps } from './Text'
+import React from 'react'
 
-interface Separator extends TextProps {
+interface SeparatorProps extends TextProps {
   type?: 'vertical' | 'horizontal'
   height?: number
   width?: number
 }
 
-export default ({ type = 'vertical', height: _height, width: _width, ...props }: Separator) => {
+export default function Separator({ type = 'vertical', height: _height, width: _width, ...props }: SeparatorProps) {
   const size = _height === undefined || _width === undefined ? useSize() : undefined
   const height = _height ?? size!.height
   const width = _width ?? size!.width

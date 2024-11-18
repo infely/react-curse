@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import ReactCurse, { Text, useExit, useInput, useSize } from '..'
+import ReactCurse, { Text, useInput, useSize } from '..'
 import Canvas, { Line } from '../components/Canvas'
 
 const CELL = 4
@@ -33,23 +33,29 @@ const Graph = ({ mode, play }) => {
   }, [offset, play])
 
   useEffect(() => {
-    setLines(DATA.map((line, colorIndex) => {
-      return line.map((i, index) => {
-        if (index - offset * mode.w / w > width * mode.w / w) return
-        return {
-          x: index * w - offset * mode.w,
-          y: c - (line[index - 1] || 0) * h,
-          dx: index * w + w - offset * mode.w,
-          dy: c - i * h,
-          color: COLORS[colorIndex]
-        }
-      }).filter(i => i)
-    }).flat())
+    setLines(
+      DATA.map((line, colorIndex) => {
+        return line
+          .map((i, index) => {
+            if (index - (offset * mode.w) / w > (width * mode.w) / w) return
+            return {
+              x: index * w - offset * mode.w,
+              y: c - (line[index - 1] || 0) * h,
+              dx: index * w + w - offset * mode.w,
+              dy: c - i * h,
+              color: COLORS[colorIndex]
+            }
+          })
+          .filter(i => i)
+      }).flat()
+    )
   }, [mode, offset])
 
   return (
     <Canvas width={width * mode.w} height={c + 1} mode={mode}>
-      {lines.map((props, key) => <Line key={key} {...props} />)}
+      {lines.map((props, key) => (
+        <Line key={key} {...props} />
+      ))}
     </Canvas>
   )
 }
@@ -59,8 +65,8 @@ const App = () => {
   const [play, setPlay] = useState(true)
 
   useInput((input: string) => {
-    if (input === '\x10\x0d') useExit()
-    if (input === 'q') useExit()
+    if (input === '\x10\x0d') ReactCurse.exit()
+    if (input === 'q') ReactCurse.exit()
 
     if (input === '1') setMode({ w: 1, h: 1 })
     if (input === '2') setMode({ w: 1, h: 2 })
@@ -73,11 +79,19 @@ const App = () => {
   return (
     <>
       <Text x={3} block>
-        {COLORS.map((color, key) => <Text key={key} color={color}>Line {key + 1} </Text>)}
+        {COLORS.map((color, key) => (
+          <Text key={key} color={color}>
+            Line {key + 1}{' '}
+          </Text>
+        ))}
       </Text>
       <Text>
         <Text width={3} dim>
-          {[...Array(5)].map((_, key) => <Text key={key} x={1} y={CELL * 4 - key * CELL}>{key.toString()}</Text>)}
+          {[...Array(5)].map((_, key) => (
+            <Text key={key} x={1} y={CELL * 4 - key * CELL}>
+              {key.toString()}
+            </Text>
+          ))}
         </Text>
         <Graph mode={mode} play={play} />
       </Text>

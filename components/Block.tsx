@@ -1,14 +1,14 @@
-import React from 'react'
-import Text, { type TextProps } from './Text'
 import useSize from '../hooks/useSize'
+import Text, { type TextProps } from './Text'
+import React from 'react'
 
-interface Block extends TextProps {
+interface BlockProps extends TextProps {
   width?: number | undefined
   align?: 'left' | 'center' | 'right'
   children: any
 }
 
-export default ({ width = undefined, align = 'left', children, ...props }: Block) => {
+export default function Block({ width = undefined, align = 'left', children, ...props }: BlockProps) {
   const handle = (line: any, key: any = undefined) => {
     if (typeof line === 'object') return line
     if (line === '\n') return

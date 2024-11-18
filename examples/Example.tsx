@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ReactCurse, { Text, Input, useInput, useExit, useMouse } from '..'
+import ReactCurse, { Text, Input, useInput, useMouse } from '..'
 
 const App = () => {
   const [focus, setFocus] = useState(true)
@@ -25,8 +25,8 @@ const App = () => {
 
   useInput(
     input => {
-      if (input === '\x10\x0d') useExit()
-      if (input === 'q') useExit()
+      if (input === '\x10\x0d') ReactCurse.exit()
+      if (input === 'q') ReactCurse.exit()
 
       if (input === '\x0d') setFocus(true)
       if (!focus) setKeys(i => i + input)
@@ -46,7 +46,7 @@ const App = () => {
         onSubmit={onSubmit}
         onCancel={onCancel}
         background="#404040"
-        initialValue={"123123123\n123123123123\n123123123\n1231231231231231231231231231231\n"}
+        initialValue={'123123123\n123123123123\n123123123\n1231231231231231231231231231231\n'}
         height={5}
         width={32}
       />

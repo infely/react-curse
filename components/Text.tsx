@@ -1,5 +1,5 @@
-import React, { type PropsWithChildren } from 'react'
 import { Modifier } from '../screen'
+import React, { type PropsWithChildren } from 'react'
 
 export interface TextProps extends Modifier {
   readonly absolute?: boolean
@@ -10,7 +10,7 @@ export interface TextProps extends Modifier {
   readonly block?: boolean
 }
 
-export default ({ children, ...props }: PropsWithChildren<TextProps>) => {
+export default function Text({ children, ...props }: PropsWithChildren<TextProps>) {
   // @ts-ignore
   return <text {...props}>{children}</text>
 }

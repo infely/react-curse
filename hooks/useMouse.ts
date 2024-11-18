@@ -1,5 +1,5 @@
-import { type DependencyList, useEffect } from 'react'
 import Renderer from '../renderer'
+import { type DependencyList, useEffect } from 'react'
 
 interface Event {
   type: 'mousedown' | 'mouseup' | 'wheeldown' | 'wheelup'

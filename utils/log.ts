@@ -20,14 +20,12 @@ const connect = () => {
 
 const toString = (data: any[]) => data.map(i => inspect(i, undefined, null, true)).join(' ')
 
-export const log = async (...rest: any) => {
+export default async function log(...rest: any) {
   try {
     if (socket === undefined) socket = await connect()
     socket.write(toString(rest) + '\n')
-  } catch (e) {
+  } catch {
     socket = undefined
     console.log(...rest)
   }
 }
-
-export default log

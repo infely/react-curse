@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react'
-import ReactCurse, { Block, Input, List, Text, useExit, useInput, useSize } from '..'
+import ReactCurse, { Block, Input, List, Text, useInput, useSize } from '..'
 import useAnimation, { useTrail } from '../hooks/useAnimation'
 
-const Task = ({ title, completed, selected }) => {
+const Task = ({ title, completed, selected }: { title: string; completed: boolean; selected: boolean }) => {
   const { interpolateColor } = useAnimation(250)
 
   return (
@@ -13,7 +13,7 @@ const Task = ({ title, completed, selected }) => {
   )
 }
 
-const Tasks = ({ focus, setFocus }) => {
+const Tasks = ({ focus, setFocus }: { focus: boolean; setFocus: (focus: boolean) => void }) => {
   const { height, width } = useSize()
   const [pos, setPos] = useState<{ y: number }>({ y: 0 })
   const [tasks, setTasks] = useState(() =>
@@ -78,10 +78,10 @@ const App = () => {
 
   useInput(
     input => {
-      if (input === '\x10\x0d') useExit()
+      if (input === '\x10\x0d') ReactCurse.exit()
       if (focus) return
 
-      if (input === 'q') useExit()
+      if (input === 'q') ReactCurse.exit()
       if (input === 't') setShow(i => !i)
     },
     [focus]

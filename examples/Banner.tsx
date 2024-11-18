@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import ReactCurse, { Text, useExit, useInput } from '..'
+import ReactCurse, { Text, useInput } from '..'
 import Banner from '../components/Banner'
 
 const lorem = [...Array(3)]
-  .map((_, offset) =>
-    [...Array(32)]
-      .map((_, index) => String.fromCharCode((offset + 1) * 32 + index))
-      .join('')
-  )
+  .map((_, offset) => [...Array(32)].map((_, index) => String.fromCharCode((offset + 1) * 32 + index)).join(''))
   .join('\n')
 
 const getTime = () => new Date().toTimeString().substring(0, 8)
@@ -22,7 +18,7 @@ const Clock = (props: any) => {
   }, [])
 
   useInput((input: string) => {
-    if (input === 'q') useExit()
+    if (input === 'q') ReactCurse.exit()
   })
 
   return <Banner {...props}>{time}</Banner>
@@ -32,7 +28,9 @@ ReactCurse.render(
   <>
     <Clock color="Red" x="50%-15" block />
     <Text>
-      <Text x={2} width={6} dim>0x20{'\n'.repeat(3)}0x40{'\n'.repeat(3)}0x60</Text>
+      <Text x={2} width={6} dim>
+        0x20{'\n'.repeat(3)}0x40{'\n'.repeat(3)}0x60
+      </Text>
       <Banner color="Blue">{lorem}</Banner>
     </Text>
   </>

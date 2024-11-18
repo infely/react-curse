@@ -1,5 +1,5 @@
-import { platform } from 'node:process'
 import { spawnSync } from 'node:child_process'
+import { platform } from 'node:process'
 
 export default (): [() => string, (input: string) => string] => {
   const getClipboard = () => {

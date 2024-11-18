@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react'
 import Renderer from '../renderer'
+import { useState, useEffect, useRef } from 'react'
 
 const interpolate = (toLow: number, toHigh: number, fromLow: number, fromHigh: number, value: number) => {
   const res = toLow + ((((toHigh - toLow) / 100) * 100) / (fromHigh - fromLow)) * (value - fromLow)

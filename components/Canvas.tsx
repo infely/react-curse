@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useRef } from 'react'
 import { Color } from '../screen'
 import chunk from '../utils/chunk'
 import Text from './Text'
+import React, { useEffect, useMemo, useRef } from 'react'
 
-class Canvas {
+class CanvasClass {
   // prettier-ignore
   MODES = {
     '1x1': { map: [[0x1]], table: [0x20, 0x88] },
@@ -121,11 +121,11 @@ interface CanvasProps {
   children: any[]
 }
 
-export default ({ mode = { w: 1, h: 2 }, width, height, children, ...props }: CanvasProps) => {
-  const canvas = useRef(new Canvas(width, height, mode))
+export default function Canvas({ mode = { w: 1, h: 2 }, width, height, children, ...props }: CanvasProps) {
+  const canvas = useRef(new CanvasClass(width, height, mode))
 
   useEffect(() => {
-    canvas.current = new Canvas(width, height, mode)
+    canvas.current = new CanvasClass(width, height, mode)
   }, [width, height, mode])
 
   const text = useMemo(() => {

@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import ReactCurse, { Text, useInput, useExit } from 'react-curse'
+import ReactCurse, { Text, useInput } from 'react-curse'
 
 const App = () => {
   const [counter, setCounter] = useState(0)
 
   useInput(
     input => {
-      if (input === 'q') useExit()
+      if (input === 'q') ReactCurse.exit()
       else setCounter(counter + 1)
     },
     [counter]

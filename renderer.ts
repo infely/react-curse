@@ -1,9 +1,9 @@
+import Input from './input'
+import Reconciler, { TextElement } from './reconciler'
+import Screen from './screen'
+import Term from './term'
 import { spawnSync, type SpawnSyncOptions, type SpawnSyncReturns } from 'node:child_process'
 import { type ReactElement } from 'react'
-import Screen from './screen'
-import Input from './input'
-import Term from './term'
-import reconciler, { TextElement } from './reconciler'
 
 class Renderer {
   container: TextElement
@@ -11,7 +11,7 @@ class Renderer {
   input: Input
   term: Term
   reconciler: any
-  callback: Function
+  callback: (value: any) => void
   throttleAt = 0
   throttleTimeout: NodeJS.Timeout
 
@@ -32,7 +32,7 @@ class Renderer {
     this.screen = new Screen()
     this.input = new Input()
     this.term = new Term()
-    this.reconciler = reconciler(this.#throttle)
+    this.reconciler = Reconciler(this.#throttle)
 
     this.term.init(options.fullscreen, options.print)
     this.reconciler.updateContainer(
@@ -82,6 +82,13 @@ class Renderer {
     this.term.reinit()
     this.term.render(this.screen.buffer)
     return res
+  }
+  bell() {
+    process.stdout.write('\x07')
+  }
+  exit(code: number | any = 0) {
+    if (typeof code === 'number') process.exit(code)
+    this.term.setResult(code)
   }
 }
 

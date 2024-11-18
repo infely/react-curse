@@ -1,5 +1,5 @@
-import Reconciler from 'react-reconciler'
 import { type TextProps } from './components/Text'
+import Reconciler from 'react-reconciler'
 
 export class TextElement {
   props: TextProps
@@ -42,8 +42,7 @@ export class TextInstance {
   }
 }
 
-export default (resetAfterCommit: Function) => {
-  // @ts-ignore
+export default (resetAfterCommit: () => void) => {
   // prettier-ignore
   const reconciler = Reconciler({
     supportsMutation: true,
@@ -68,7 +67,7 @@ export default (resetAfterCommit: Function) => {
     removeChildFromContainer(container: any, child: any) { container.removeChild(child) },
     resetAfterCommit() { resetAfterCommit() },
     shouldSetTextContent() { return false },
-  })
+  } as any)
 
   return reconciler
 }

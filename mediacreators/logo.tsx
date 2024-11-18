@@ -10,7 +10,7 @@ Show
 Sleep 10s */
 
 import React from 'react'
-import ReactCurse, { Bar, Text, useAnimation, useExit, useInput } from '..'
+import ReactCurse, { Bar, Text, useAnimation, useInput } from '..'
 
 const splitLine = (line: string) => {
   const chunks = {}
@@ -43,7 +43,7 @@ const lines = [
 ]
 
 const App = () => {
-  useInput(input => input === '\x10\x0d' && useExit())
+  useInput(input => input === '\x10\x0d' && ReactCurse.exit())
 
   const l = 10000
   const { ms, interpolate } = useAnimation(l)

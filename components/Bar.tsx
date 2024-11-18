@@ -1,5 +1,5 @@
-import React from 'react'
 import Text, { type TextProps } from './Text'
+import React from 'react'
 
 const getSize = (offset: number, size: number) => {
   offset = Math.round(offset * 8)
@@ -60,7 +60,7 @@ const Horizontal = (x: number, width: number, props: object) => {
   )
 }
 
-interface Bar extends TextProps {
+interface BarProps extends TextProps {
   type: 'vertical' | 'horizontal'
   y?: number
   x?: number
@@ -68,7 +68,7 @@ interface Bar extends TextProps {
   width?: number
 }
 
-export default ({ type = 'vertical', y, x, height, width, ...props }: Bar): JSX.Element | null => {
+export default function Bar({ type = 'vertical', y, x, height, width, ...props }: BarProps): JSX.Element | null {
   if (type === 'vertical') return Vertical(y || 0, height || 0, { x, width, ...props })
   if (type === 'horizontal') return Horizontal(x || 0, width || 0, { y, height, ...props })
 

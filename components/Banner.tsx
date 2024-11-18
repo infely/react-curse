@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react'
 import chunk from '../utils/chunk'
 import Text, { type TextProps } from './Text'
+import React, { useMemo } from 'react'
 
 const FONT =
   'BAQEAAQAqq4KDgoA6oLkKOpAZIRAoOAAKERERCgAAETuRKAAAAAOAECAAgQEBEgA5KykpO4A7iLugu4ArqjuIi4A7oLiouIA7qruou4AAEQAAEQIIE6ATiAAjkIkQIQATqqO6koA7qjIqO4AzqisqM4A7ojIio4ArqTkpK4A6iosquoAio6KiuoAzqqqqq4A7qrqio4C7qjOoq4A6kpKSk4AqqqqrkoAqqpEpKQA5iREhOYAjERERCwAQKAAAA4AhkQIBAYATERCREwAUKAAAAAA'
 
 const letters = chunk(Buffer.from(FONT, 'base64'), 6)
 
-const Letter = ({ children }) => {
+const Letter = ({ children }: { children: string }) => {
   const text = useMemo(() => {
     let code = children.toUpperCase().charCodeAt(0)
     if (code >= 123 && code <= 126) code -= 26
@@ -31,11 +31,11 @@ const Letter = ({ children }) => {
   return <>{text}</>
 }
 
-interface Banner extends TextProps {
+interface BannerProps extends TextProps {
   children: string
 }
 
-export default ({ children, ...props }: Banner): JSX.Element | null => {
+export default function Banner({ children, ...props }: BannerProps): JSX.Element | null {
   if (children === undefined || children === null) return null
 
   const lines = children.toString().split('\n')

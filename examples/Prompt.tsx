@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ReactCurse, { Block, Frame, Input, Text, useAnimation, useExit, useInput } from '..'
+import ReactCurse, { Block, Frame, Input, Text, useAnimation, useInput } from '..'
 
 const InputText = ({ text, type, color }: { text: string; type: any; color: any }) => {
   const [focus, setFocus] = useState(true)
@@ -8,7 +8,7 @@ const InputText = ({ text, type, color }: { text: string; type: any; color: any 
   const onSubmit = (input: string) => {
     setFocus(false)
     setValue(input)
-    useExit(input)
+    ReactCurse.exit(input)
   }
 
   return (
@@ -29,12 +29,12 @@ const InputList = ({ items, color }: { items: string[]; color: any }) => {
 
   useInput(
     (input: string) => {
-      if (input === 'q') useExit()
+      if (input === 'q') ReactCurse.exit()
 
       if (input === 'k') setSelected(i => Math.max(0, i - 1))
       if (input === 'j') setSelected(i => Math.min(items.length - 1, i + 1))
       if (input === '\x0d') {
-        useExit(items[selected])
+        ReactCurse.exit(items[selected])
         setFocus(false)
       }
     },
@@ -55,7 +55,7 @@ const InputList = ({ items, color }: { items: string[]; color: any }) => {
   )
 }
 
-const Spinner = ({ text }) => {
+const Spinner = ({ text }: { text: string }) => {
   const frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'] // ['|', '/', '-', '\\']
 
   const { ms, interpolate } = useAnimation(Infinity)

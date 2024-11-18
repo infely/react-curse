@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import ReactCurse, { Text, useExit, useInput } from '..'
+import ReactCurse, { Text, useInput } from '..'
 
 const TEXT = ''
 const width = process.stdout.columns
 const height = process.stdout.rows
 
 const rand = () => {
-  return [...Array(128)].map(_ => [ // 512
+  return [...Array(128)].map(_ => [
+    // 512
     width / 2,
     0,
     Math.floor(Math.random() * 256),
     Math.random() * 2 - 1, // 3 - 1.5
-    Math.random() * 1      // 1.5
+    Math.random() * 1 // 1.5
   ])
 }
 
@@ -40,7 +41,7 @@ const App = () => {
   }, [])
 
   useInput((input: string) => {
-    if (input === 'q') useExit()
+    if (input === 'q') ReactCurse.exit()
   })
 
   return (

@@ -1,15 +1,15 @@
-import React from 'react'
-import Text, { type TextProps } from './Text'
 import useChildrenSize from '../hooks/useChildrenSize'
+import Text, { type TextProps } from './Text'
+import React from 'react'
 
-interface Frame extends TextProps {
+interface FrameProps extends TextProps {
   children: any
   type?: 'single' | 'double' | 'rounded'
   height?: number
   width?: number
 }
 
-export default ({ children, type = 'single', height: _height, width: _width, ...props }: Frame) => {
+export default function Frame({ children, type = 'single', height: _height, width: _width, ...props }: FrameProps) {
   const frames = {
     single: '┌─┐│└┘',
     double: '╔═╗║╚╝',

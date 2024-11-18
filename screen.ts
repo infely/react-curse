@@ -1,6 +1,6 @@
-import { type ReactElement } from 'react'
 import { type TextProps } from './components/Text'
 import { type TextElement } from './reconciler'
+import { type ReactElement } from 'react'
 
 export type Color =
   | number
@@ -108,14 +108,14 @@ class Screen {
       props.width !== undefined
         ? Math.min(props.absolute ? this.buffer[0].length : prevBounds.x2, props.width + x)
         : props.absolute
-        ? this.buffer[0].length
-        : prevBounds.x2
+          ? this.buffer[0].length
+          : prevBounds.x2
     const y2 =
       props.height !== undefined
         ? Math.min(props.absolute ? this.buffer.length : prevBounds.y2, props.height + y)
         : props.absolute
-        ? this.buffer.length
-        : prevBounds.y2
+          ? this.buffer.length
+          : prevBounds.y2
     const bounds = { x, y, x1, y1, x2, y2 }
     this.cursor.x = bounds.x
     this.cursor.y = bounds.y
@@ -160,7 +160,7 @@ class Screen {
     }
   }
   put(text: string, bounds: Bounds, modifiers: TextProps) {
-    let { x, y } = bounds
+    const { x, y } = bounds
 
     let i: number
     for (i = 0; i < text.length; i++) {

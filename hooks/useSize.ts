@@ -1,7 +1,7 @@
 import process from 'node:process'
 import { useEffect, useState } from 'react'
 
-const subscribers = new Set<Function>()
+const subscribers = new Set<(size: { width: number; height: number }) => void>()
 
 const getSize = () => {
   const { columns: width, rows: height } = process.stdout

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import ReactCurse, { Banner, Canvas, Point, Line, useSize, useInput, useExit } from '..'
+import ReactCurse, { Banner, Canvas, Point, Line, useSize, useInput } from '..'
 
 const Game = () => {
   const { width, height } = useSize()
@@ -31,8 +31,8 @@ const Game = () => {
   }, [scores])
 
   useInput((input: string) => {
-    if (input === '\x10\x0d') useExit()
-    if (input === 'q') useExit()
+    if (input === '\x10\x0d') ReactCurse.exit()
+    if (input === 'q') ReactCurse.exit()
 
     if (input === 'k') setY(y => y - 1)
     if (input === 'j') setY(y => y + 1)

@@ -3,7 +3,7 @@ import { copyFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { cwd } from 'node:process'
 import React, { useState } from 'react'
-import ReactCurse, { Input, Spinner, Text, useAnimation, useExit, useInput } from '..'
+import ReactCurse, { Input, Spinner, Text, useAnimation, useInput } from '..'
 
 const pwd = cwd()
 
@@ -28,7 +28,7 @@ const install = (value: string) => {
   })
 }
 
-const Logo = ({ text }) => {
+const Logo = ({ text }: { text: string }) => {
   const { interpolate } = useAnimation(1000)
   const w = Math.floor(interpolate(0, 22))
 
@@ -54,7 +54,7 @@ const App = () => {
     const res = await install(value)
     setFocus(res ? 3 : -1)
 
-    setTimeout(useExit, 1000 / 60)
+    setTimeout(ReactCurse.exit, 1000 / 60)
   }
 
   useInput()

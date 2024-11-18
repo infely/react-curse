@@ -1,5 +1,5 @@
-import { type DependencyList, useEffect } from 'react'
 import Renderer from '../renderer'
+import { type DependencyList, useEffect } from 'react'
 
 export default (callback: (input: string, raw: () => string) => void = () => {}, deps: DependencyList = []) => {
   useEffect(() => {
