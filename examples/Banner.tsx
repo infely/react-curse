@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
 import ReactCurse, { Text, useInput } from '..'
 import Banner from '../components/Banner'
+import React, { useEffect, useState } from 'react'
 
 const lorem = [...Array(3)]
   .map((_, offset) => [...Array(32)].map((_, index) => String.fromCharCode((offset + 1) * 32 + index)).join(''))

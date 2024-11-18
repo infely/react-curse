@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
 import ReactCurse, { Text, Input, useInput, useMouse } from '..'
+import React, { useState } from 'react'
 
 const App = () => {
   const [focus, setFocus] = useState(true)

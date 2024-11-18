@@ -1,5 +1,5 @@
-import React from 'react'
 import ReactCurse, { Text } from '..'
+import React from 'react'
 
 const App = () => {
   return (

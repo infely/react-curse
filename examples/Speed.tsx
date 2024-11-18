@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
 import ReactCurse, { Text, useInput } from '..'
+import React, { useEffect, useState } from 'react'
 
 const TEXT = ''
 const width = process.stdout.columns
 const height = process.stdout.rows
 
 const rand = () => {
-  return [...Array(128)].map(_ => [
+  return [...Array(128)].map(() => [
     // 512
     width / 2,
     0,

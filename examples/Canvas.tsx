@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react'
 import ReactCurse, { Text, useInput, useSize } from '..'
 import Canvas, { Line } from '../components/Canvas'
+import React, { useEffect, useMemo, useState } from 'react'
 
 const CELL = 4
 const COLORS = ['Red', 'Green', 'Blue']
@@ -13,7 +13,7 @@ const DATA = [...Array(COLORS.length)].map(() => {
   })
 })
 
-const Graph = ({ mode, play }) => {
+const Graph = ({ mode, play }: any) => {
   const { width } = useSize()
 
   const h = useMemo(() => CELL * mode.h, [mode])

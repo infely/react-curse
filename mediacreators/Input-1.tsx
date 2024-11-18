@@ -9,14 +9,11 @@ Sleep 250ms
 Type hello world
 Left 11
 Sleep 1s */
-
-import React from 'react'
 import ReactCurse, { Input } from '..'
+import React from 'react'
 
 const App = () => {
-  return (
-    <Input background="White" height={1} width={8} />
-  )
+  return <Input background="White" height={1} width={8} />
 }
 
 ReactCurse.render(<App />)

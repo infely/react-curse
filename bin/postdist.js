@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 import { readFileSync, writeFileSync, chmodSync, unlinkSync } from 'node:fs'
 import { argv } from 'node:process'
 

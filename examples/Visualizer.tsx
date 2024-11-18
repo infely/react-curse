@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react'
 import ReactCurse, { Bar, Text, Trail, useAnimation, useSize } from '..'
+import React, { useMemo } from 'react'
 
 const App = () => {
   const { height, width } = useSize()

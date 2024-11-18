@@ -10,9 +10,8 @@ Type@200ms jjl
 Sleep 500ms
 Type@200ms kkh
 Sleep 1000ms */
-
-import React from 'react'
 import ReactCurse, { ListTable, Text } from '..'
+import React from 'react'
 
 const App = () => {
   const head = ['id', 'title']
@@ -20,11 +19,17 @@ const App = () => {
   return (
     <ListTable
       head={head}
-      renderHead={({ item }) => item.map((i: string, key: string) => <Text key={key} width={8}>{i}</Text>)}
+      renderHead={({ item }) =>
+        item.map((i: string, key: string) => (
+          <Text key={key} width={8}>
+            {i}
+          </Text>
+        ))
+      }
       data={items}
       renderItem={({ item, x, y, index }) =>
         item.map((text: string, key: string) => (
-          <Text key={key} color={y === index && x === key ? 'BrightGreen': undefined} width={8}>
+          <Text key={key} color={y === index && x === key ? 'BrightGreen' : undefined} width={8}>
             {text}
           </Text>
         ))

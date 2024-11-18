@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react'
 import ReactCurse, { Block, Input, List, Text, useInput, useSize } from '..'
 import useAnimation, { useTrail } from '../hooks/useAnimation'
+import React, { useCallback, useState } from 'react'
 
 const Task = ({ title, completed, selected }: { title: string; completed: boolean; selected: boolean }) => {
   const { interpolateColor } = useAnimation(250)
@@ -54,7 +54,7 @@ const Tasks = ({ focus, setFocus }: { focus: boolean; setFocus: (focus: boolean)
   )
 }
 
-const Fade = ({ children }) => {
+const Fade = ({ children }: { children: React.ReactNode }) => {
   const { interpolateColor } = useAnimation(1000)
 
   const color = interpolateColor('#3c3836', '#ebdbb2', 500)

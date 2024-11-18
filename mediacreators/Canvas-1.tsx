@@ -1,7 +1,6 @@
 /* @vhs 80x3@1 */
-
-import React from 'react'
 import ReactCurse, { Canvas, Point, Line, useInput } from '..'
+import React from 'react'
 
 const App = () => {
   useInput()

@@ -6,9 +6,8 @@ Sleep 40ms
 
 Show
 Sleep 1.5s */
-
-import React from 'react'
 import ReactCurse, { Spinner, useInput } from '..'
+import React from 'react'
 
 const App = () => {
   useInput()

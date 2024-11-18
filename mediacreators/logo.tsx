@@ -8,9 +8,8 @@ Sleep 40ms
 
 Show
 Sleep 10s */
-
-import React from 'react'
 import ReactCurse, { Bar, Text, useAnimation, useInput } from '..'
+import React from 'react'
 
 const splitLine = (line: string) => {
   const chunks = {}

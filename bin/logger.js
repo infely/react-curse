@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 import { rmSync } from 'node:fs'
 import { createServer } from 'node:net'
 import { tmpdir } from 'node:os'

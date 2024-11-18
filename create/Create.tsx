@@ -1,9 +1,9 @@
+import ReactCurse, { Input, Spinner, Text, useAnimation, useInput } from '..'
 import { exec } from 'node:child_process'
 import { copyFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { cwd } from 'node:process'
 import React, { useState } from 'react'
-import ReactCurse, { Input, Spinner, Text, useAnimation, useInput } from '..'
 
 const pwd = cwd()
 

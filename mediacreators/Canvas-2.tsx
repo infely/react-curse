@@ -9,9 +9,8 @@ Sleep 250ms
 
 Show
 Sleep 250ms */
-
-import React from 'react'
 import ReactCurse, { Canvas, Point, Line, useInput } from '..'
+import React from 'react'
 
 const App = () => {
   useInput()

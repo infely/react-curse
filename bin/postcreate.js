@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 import { execSync } from 'node:child_process'
 import { readFileSync, writeFileSync, chmodSync } from 'node:fs'
 
