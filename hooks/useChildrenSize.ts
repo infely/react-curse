@@ -4,9 +4,9 @@ const render = (element: ReactElement | ReactElement[] | any) => {
   if (Array.isArray(element)) return element.map(i => render(i)).join('')
 
   const { children } = (element as ReactElement).props ?? { children: element }
-  if (Array.isArray(children) || children.props) return render(children)
+  if (Array.isArray(children) || children?.props) return render(children)
 
-  return children.toString()
+  return children?.toString() ?? ''
 }
 
 const getSize = (children: ReactElement | ReactElement[] | any) => {
