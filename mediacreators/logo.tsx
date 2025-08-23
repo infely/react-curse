@@ -43,14 +43,14 @@ const lines = [
   [[w + 24, w], [w * 3 + 24, w * 2]],
 ]
 
-const App = () => {
+export const Logo = ({ ...props }) => {
   useInput(input => input === '\x10\x0d' && ReactCurse.exit())
 
   const l = 10000
   const { ms, interpolate } = useAnimation(l)
 
   return (
-    <Text y={1} x={2}>
+    <Text y={1} x={2} height={5} {...props}>
       <Text y={0} x={0}>
         <Text color="Green">{mask}</Text>
       </Text>
@@ -89,4 +89,4 @@ const App = () => {
   )
 }
 
-ReactCurse.render(<App />)
+ReactCurse.render(<Logo />)

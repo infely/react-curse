@@ -6,7 +6,7 @@
   <br>
 </div>
 
-A curses-like blazingly fast react renderer
+Fastest terminal UI for react (TUI, CLI, curses-like)
 
 - It is fast, intuitive and easy to use
 - It draws only changed characters
@@ -41,7 +41,6 @@ Just run `npm init react-curse` answer a few questions and you are ready to go
 #### Hello world
 
 ```jsx
-import React from 'react'
 import ReactCurse, { Text } from 'react-curse'
 
 const App = ({ text }) => {
@@ -86,7 +85,6 @@ ReactCurse.render(<App />)
 #### How to animate
 
 ```jsx
-import React from 'react'
 import ReactCurse, { useAnimation } from 'react-curse'
 
 const App = () => {

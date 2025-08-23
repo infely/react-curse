@@ -1,6 +1,6 @@
 import ReactCurse, { Text, useInput } from '..'
 import Frame from '../components/Frame'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 const App = () => {
   const [counter, setCounter] = useState(0)

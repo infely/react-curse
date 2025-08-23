@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    /* Core */
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
@@ -12,21 +11,11 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-
-    /* Strictness */
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-
-    /* React / JSX */
     "jsx": "react-jsx",
-
-    /* Paths */
-    // "baseUrl": "./src",
-
-    /* Output (for build tools like Vite, CRA, Next.js etc.) */
     "noEmit": true
   },
-  /* "include": ["src"], */
-  "exclude": ["node_modules", "dist", "build", "create/template"]
+  "exclude": ["node_modules", ".create", ".dist", ".npm", "create/template"]
 }

@@ -1,4 +1,5 @@
 import ReactCurse, { Input, Spinner, Text, useAnimation, useInput } from '..'
+import { Logo } from '../mediacreators/logo'
 import { exec } from 'child_process'
 import { copyFileSync, existsSync, mkdirSync, readdirSync } from 'fs'
 import { join } from 'path'
@@ -8,12 +9,14 @@ import { useState } from 'react'
 const pwd = cwd()
 
 const install = (value: string) => {
-  if (!value) return
+  value ??= ''
+  // console.log({ value })
+  // if (!value) return
 
   const dest = join(pwd, value)
-  if (existsSync(dest)) return
+  if (!existsSync(dest)) mkdirSync(dest)
 
-  mkdirSync(dest)
+  if (existsSync(join(dest, 'package.json'))) return
   const src = join(__dirname, 'template')
   const files = readdirSync(src)
   for (const file of files) {
@@ -28,21 +31,21 @@ const install = (value: string) => {
   })
 }
 
-const Logo = ({ text }: { text: string }) => {
-  const { interpolate } = useAnimation(1000)
-  const w = Math.floor(interpolate(0, 22))
-
-  return (
-    <Text block>
-      <Text y={0} dim block>
-        {text.replace(/[^\s]/g, '#')}
-      </Text>
-      <Text y={0} color="BrightGreen">
-        {text.substring(0, w)}
-      </Text>
-    </Text>
-  )
-}
+// const Logo = ({ text }: { text: string }) => {
+//   const { interpolate } = useAnimation(1000)
+//   const w = Math.floor(interpolate(0, 22))
+//
+//   return (
+//     <Text block>
+//       <Text y={0} dim block>
+//         {text.replace(/[^\s]/g, '#')}
+//       </Text>
+//       <Text y={0} color="BrightGreen">
+//         {text.substring(0, w)}
+//       </Text>
+//     </Text>
+//   )
+// }
 
 const App = () => {
   const [focus, setFocus] = useState(1)
@@ -62,7 +65,8 @@ const App = () => {
   return (
     <>
       <Text block />
-      <Logo text="Welcome to ReactCurse!" />
+      {/* <Logo text="Welcome to ReactCurse!" /> */}
+      <Logo block />
       <Text block />
       <Text block>
         {focus === 1 && <Text>? </Text>}
@@ -90,9 +94,11 @@ const App = () => {
       {focus === 3 && (
         <>
           <Text block />
-          <Text block>
-            <Text dim>{'# '}</Text>cd {value}
-          </Text>
+          {value && (
+            <Text block>
+              <Text dim>{'# '}</Text>cd {value}
+            </Text>
+          )}
           <Text block>
             <Text dim>{'# '}</Text>npm start
           </Text>
@@ -105,4 +111,4 @@ const App = () => {
   )
 }
 
-ReactCurse.inline(<App />)
+ReactCurse.render(<App />)
