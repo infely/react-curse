@@ -1,34 +1,34 @@
 import ReactCurse, { Bar, Text, Trail, useAnimation, useSize } from '..'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 
-const App = () => {
-  const { height, width } = useSize()
+// const App = () => {
+//   const { height, width } = useSize()
+//
+//   const { ms, interpolate } = useAnimation(2000)
+//
+//   const lines = useMemo(() => {
+//     return [...Array(Math.floor(width / 2))].map(_ => ({
+//       h: Math.floor(Math.random() * height),
+//       t: Math.floor(Math.random() * 250) + 250,
+//       c: 255 - Math.floor(Math.random() * 16)
+//     }))
+//   }, [])
+//
+//   return (
+//     <>
+//       {lines.map(({ h, t, c }, key) => {
+//         h = ms < 1000 ? interpolate(0, h, 0, t, ms % t) : interpolate(h, 0, 1000, 2000)
+//         return (
+//           <Text y={0} x={key * 2} key={key}>
+//             <Bar type="vertical" y={height - h} height={h} color={c} />
+//           </Text>
+//         )
+//       })}
+//     </>
+//   )
+// }
 
-  const { ms, interpolate } = useAnimation(2000)
-
-  const lines = useMemo(() => {
-    return [...Array(Math.floor(width / 2))].map(_ => ({
-      h: Math.floor(Math.random() * height),
-      t: Math.floor(Math.random() * 250) + 250,
-      c: 255 - Math.floor(Math.random() * 16)
-    }))
-  }, [])
-
-  return (
-    <>
-      {lines.map(({ h, t, c }, key) => {
-        h = ms < 1000 ? interpolate(0, h, 0, t, ms % t) : interpolate(h, 0, 1000, 2000)
-        return (
-          <Text y={0} x={key * 2} key={key}>
-            <Bar type="vertical" y={height - h} height={h} color={c} />
-          </Text>
-        )
-      })}
-    </>
-  )
-}
-
-const Line = ({ h, c }) => {
+const Line = ({ h, c }: { h: number; c: number }) => {
   const { height } = useSize()
   const { interpolate } = useAnimation(500)
 

@@ -1,9 +1,8 @@
 import { Color } from '../screen'
 import Bar from './Bar'
 import Text from './Text'
-import React from 'react'
 
-interface ScrollbarProps {
+export interface ScrollbarProps {
   type?: 'vertical' | 'horizontal'
   offset: number
   limit: number
@@ -12,14 +11,7 @@ interface ScrollbarProps {
   color?: Color
 }
 
-export default function Scrollbar({
-  type = 'vertical',
-  offset,
-  limit,
-  length,
-  background = undefined,
-  color = undefined
-}: ScrollbarProps) {
+export default function Scrollbar({ type = 'vertical', offset, limit, length, background, color }: ScrollbarProps) {
   length ||= limit
   offset = (limit / length) * offset
   let size = limit / (length / limit)

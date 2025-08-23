@@ -1,7 +1,7 @@
-import { createConnection } from 'node:net'
-import { tmpdir } from 'node:os'
-import { join } from 'node:path'
-import { inspect } from 'node:util'
+import { createConnection } from 'net'
+import { tmpdir } from 'os'
+import { join } from 'path'
+import { inspect } from 'util'
 
 let socket: any
 

@@ -11,7 +11,6 @@ Sleep 500ms
 Type@100ms kkk
 Sleep 1000ms */
 import ReactCurse, { List, Text } from '..'
-import React from 'react'
 
 const App = () => {
   const items = [...Array(8)].map((_, index) => ({ id: index + 1, title: `Task ${index + 1}` }))

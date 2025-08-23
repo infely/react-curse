@@ -1,8 +1,7 @@
 import useSize from '../hooks/useSize'
-import Text, { type TextProps } from './Text'
-import React from 'react'
+import Text, { TextProps } from './Text'
 
-interface SeparatorProps extends TextProps {
+export interface SeparatorProps extends TextProps {
   type?: 'vertical' | 'horizontal'
   height?: number
   width?: number

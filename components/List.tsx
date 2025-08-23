@@ -3,7 +3,7 @@ import useSize from '../hooks/useSize'
 import { Color } from '../screen'
 import Scrollbar from './Scrollbar'
 import Text from './Text'
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 export const getYO = (offset: number, limit: number, y: number) => {
   if (offset <= y - limit) return y - limit + 1
@@ -63,7 +63,7 @@ export interface ListBase {
   initialPos?: ListPos
   height?: number
   width?: number
-  renderItem?: (_: any) => React.ReactNode
+  renderItem?: (_: any) => any
   scrollbar?: boolean
   scrollbarBackground?: Color
   scrollbarColor?: Color

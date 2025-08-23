@@ -1,9 +1,8 @@
-import { spawnSync } from 'node:child_process'
-import { platform } from 'node:process'
+import { spawnSync } from 'child_process'
 
 export default (): [() => string, (input: string) => string] => {
   const getClipboard = () => {
-    switch (platform) {
+    switch (process.platform) {
       case 'darwin':
         return spawnSync('pbpaste', [], { encoding: 'utf8' }).stdout
     }
@@ -14,7 +13,7 @@ export default (): [() => string, (input: string) => string] => {
   const setClipboard = (input: any) => {
     if (typeof input !== 'string') input = input.toString()
 
-    switch (platform) {
+    switch (process.platform) {
       case 'darwin':
         spawnSync('pbcopy', [], { input })
         break

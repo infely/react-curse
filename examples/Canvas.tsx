@@ -1,6 +1,6 @@
 import ReactCurse, { Text, useInput, useSize } from '..'
 import Canvas, { Line } from '../components/Canvas'
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 const CELL = 4
 const COLORS = ['Red', 'Green', 'Blue']
@@ -19,7 +19,7 @@ const Graph = ({ mode, play }: any) => {
   const h = useMemo(() => CELL * mode.h, [mode])
   const w = useMemo(() => CELL * mode.w, [mode])
   const c = useMemo(() => h * 4, [h])
-  const [lines, setLines] = useState([])
+  const [lines, setLines] = useState<any[]>([])
   const [offset, setOffset] = useState(0)
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Graph = ({ mode, play }: any) => {
 
   useEffect(() => {
     setLines(
-      DATA.map((line, colorIndex) => {
+      DATA.flatMap((line, colorIndex) => {
         return line
           .map((i, index) => {
             if (index - (offset * mode.w) / w > (width * mode.w) / w) return
@@ -47,7 +47,7 @@ const Graph = ({ mode, play }: any) => {
             }
           })
           .filter(i => i)
-      }).flat()
+      })
     )
   }, [mode, offset])
 

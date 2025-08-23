@@ -1,7 +1,7 @@
 import { Color } from '../screen'
 import chunk from '../utils/chunk'
-import Text from './Text'
-import React, { useEffect, useMemo, useRef } from 'react'
+import Text, { TextProps } from './Text'
+import { Children, useEffect, useMemo, useRef } from 'react'
 
 class CanvasClass {
   // prettier-ignore
@@ -29,17 +29,20 @@ class CanvasClass {
     this.buffer = Buffer.alloc(size)
     this.colors = [...Array(size * (this.multicolor ? 2 : 1))]
   }
+
   clear() {
     this.buffer.fill(0)
     this.colors.fill(0)
   }
+
   set(x: number, y: number, color: Color) {
     if (x < 0 || x >= this.w || y < 0 || y >= this.h) return
     const index = (this.w / this.mode.w) * Math.floor(y / this.mode.h) + Math.floor(x / this.mode.w)
-    this.buffer[index] |= this.MODES[`${this.mode.w}x${this.mode.h}`].map[y % this.mode.h][x % this.mode.w]
+    this.buffer[index] |= (this.MODES as any)[`${this.mode.w}x${this.mode.h}`].map[y % this.mode.h][x % this.mode.w]
 
     if (color) this.colors[this.multicolor ? this.w * y + x : index] = color
   }
+
   line(x0: number, y0: number, x1: number, y1: number, color: Color) {
     const dx = x1 - x0
     const dy = y1 - y0
@@ -68,9 +71,10 @@ class CanvasClass {
       }
     }
   }
+
   render() {
     return [...this.buffer].map((i, index) => {
-      const table = this.MODES[`${this.mode.w}x${this.mode.h}`].table
+      const table = (this.MODES as any)[`${this.mode.w}x${this.mode.h}`].table
       let res = String.fromCharCode(table ? (i && 0x2500) + table[i] : 0x2800 + i)
 
       let colors: Color[] = []
@@ -114,7 +118,7 @@ interface Line {
 
 export const Line = (_props: Line) => <></>
 
-interface CanvasProps {
+interface CanvasProps extends TextProps {
   mode?: { w: number; h: number }
   width: number
   height: number
@@ -131,7 +135,7 @@ export default function Canvas({ mode = { w: 1, h: 2 }, width, height, children,
   const text = useMemo(() => {
     canvas.current.clear()
 
-    React.Children.forEach(children, i => {
+    Children.forEach(children, i => {
       if (i.type === Point) {
         const { x, y, color } = i.props
         canvas.current.set(x, y, color)
@@ -146,10 +150,10 @@ export default function Canvas({ mode = { w: 1, h: 2 }, width, height, children,
 
   return (
     <Text {...props}>
-      {chunk(text, canvas.current.w / canvas.current.mode.w).map((line, y) => (
+      {chunk(text, canvas.current.w / canvas.current.mode.w).map((line: any, y) => (
         <Text key={y} x={0} y={y}>
           {line.map(
-            ([char, [color, background]], x: number) =>
+            ([char, [color, background]]: any, x: number) =>
               char !== ' ' && (
                 <Text
                   key={x}

@@ -1,10 +1,10 @@
 import { type ReactElement, useEffect, useState } from 'react'
 
-const render = (element: ReactElement | ReactElement[] | any) => {
+const render = (element: ReactElement | ReactElement[] | any): any => {
   if (Array.isArray(element)) return element.map(i => render(i)).join('')
 
-  const { children } = (element as ReactElement).props ?? { children: element }
-  if (Array.isArray(children) || children.props) return render(children)
+  const { children } = ((element as ReactElement).props as any) ?? { children: element }
+  if (Array.isArray(children) || children?.props) return render(children)
 
   return children.toString()
 }

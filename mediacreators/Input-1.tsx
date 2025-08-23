@@ -10,7 +10,6 @@ Type hello world
 Left 11
 Sleep 1s */
 import ReactCurse, { Input } from '..'
-import React from 'react'
 
 const App = () => {
   return <Input background="White" height={1} width={8} />

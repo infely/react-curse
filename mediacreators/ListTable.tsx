@@ -11,7 +11,6 @@ Sleep 500ms
 Type@200ms kkh
 Sleep 1000ms */
 import ReactCurse, { ListTable, Text } from '..'
-import React from 'react'
 
 const App = () => {
   const head = ['id', 'title']

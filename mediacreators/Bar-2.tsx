@@ -7,7 +7,6 @@ Sleep 40ms
 Show
 Sleep 2s */
 import ReactCurse, { Bar, Text, useAnimation, useInput } from '..'
-import React from 'react'
 
 const App = () => {
   useInput()

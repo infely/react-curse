@@ -1,6 +1,6 @@
 {
   "name": "react-curse",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "A curses-like blazingly fast react renderer",
   "keywords": [
     "ansi",
@@ -34,30 +34,33 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "npx esbuild ${npm_config_src:=examples/Example.tsx} --outfile=.dist/index.js --bundle --platform=node --format=esm --external:'./node_modules/*' --sourcemap && node --enable-source-maps .dist",
+    "dev": "bun run --watch examples/Example.tsx",
+    "build": "NODE_ENV=production bun build --minify --target=node ${npm_config_src:=examples/Example.tsx} > .dist/index.js",
+    "lint": "tsc --noEmit",
+    "esbuild:start": "npx esbuild ${npm_config_src:=examples/Example.tsx} --outfile=.dist/index.js --bundle --platform=node --format=esm --external:'./node_modules/*' --sourcemap && node --enable-source-maps .dist",
     "npm": "npx esbuild index.ts --outdir=.npm --bundle --platform=node --format=esm --packages=external",
-    "postnpm": "tsc --emitDeclarationOnly --declaration --jsx react --target esnext --esModuleInterop --moduleResolution node index.ts --outdir .npm && bin/postnpm.js",
-    "create": "npx esbuild create/Create.tsx --outfile=.create/index.js --bundle --platform=node --define:'process.env.NODE_ENV=\"production\"' --minify --tree-shaking=true",
-    "postcreate": "bin/postcreate.js",
-    "dist": "npx esbuild ${npm_config_src:=examples/Example.tsx} --outfile=.dist/index.cjs --bundle --platform=node --define:'process.env.NODE_ENV=\"production\"' --minify --tree-shaking=true",
+    "postnpm": "tsc --emitDeclarationOnly --declaration --jsx react-jsx --target esnext --esModuleInterop --moduleResolution node index.ts --outdir .npm && bin/postnpm.js",
+    "esbuild:create": "npx esbuild create/Create.tsx --outfile=.create/index.js --bundle --platform=node --define:'process.env.NODE_ENV=\"production\"' --minify --tree-shaking=true",
+    "esbuild:postcreate": "bin/postcreate.js",
+    "esbuild:dist": "npx esbuild ${npm_config_src:=examples/Example.tsx} --outfile=.dist/index.cjs --bundle --platform=node --define:'process.env.NODE_ENV=\"production\"' --minify --tree-shaking=true",
     "logger": "bin/logger.js"
   },
   "dependencies": {
-    "esbuild": "^0.25.5",
-    "react": "18.3.1",
-    "react-reconciler": "0.29.2"
+    "esbuild": "^0.25.9",
+    "react": "^19.1.1",
+    "react-reconciler": "^0.32.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.28.0",
+    "@eslint/js": "^9.34.0",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
-    "@types/eslint__js": "8.42.3",
-    "@types/node": "^22.15.29",
-    "@types/react": "18.3.1",
-    "@types/react-reconciler": "0.28.9",
-    "eslint": "^9.28.0",
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.1.11",
+    "@types/react-reconciler": "^0.32.0",
+    "eslint": "^9.34.0",
     "eslint-plugin-react": "^7.37.5",
-    "prettier": "^3.5.3",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.33.1"
+    "globals": "^16.3.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.40.0"
   }
 }

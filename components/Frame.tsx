@@ -1,20 +1,21 @@
 import useChildrenSize from '../hooks/useChildrenSize'
-import Text, { type TextProps } from './Text'
-import React from 'react'
+import Text, { TextProps } from './Text'
 
-interface FrameProps extends TextProps {
-  children: any
+const FRAMES = {
+  single: '┌─┐│└┘',
+  double: '╔═╗║╚╝',
+  rounded: '╭─╮│╰╯'
+} as const
+
+export interface FrameProps extends TextProps {
   type?: 'single' | 'double' | 'rounded'
   height?: number
   width?: number
+  children: React.ReactNode
 }
 
-export default function Frame({ children, type = 'single', height: _height, width: _width, ...props }: FrameProps) {
-  const frames = {
-    single: '┌─┐│└┘',
-    double: '╔═╗║╚╝',
-    rounded: '╭─╮│╰╯'
-  }[type]
+export default function Frame({ type = 'single', height: _height, width: _width, children, ...props }: FrameProps) {
+  const frames = FRAMES[type]
 
   const size = _height === undefined || _width === undefined ? useChildrenSize(children) : undefined
   const height = _height ?? size!.height

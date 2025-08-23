@@ -1,7 +1,7 @@
 import Renderer from '../renderer'
-import { type DependencyList, useEffect } from 'react'
+import { useEffect } from 'react'
 
-export default (callback: (input: string, raw: () => string) => void = () => {}, deps: DependencyList = []) => {
+export default (callback: (input: string, raw: () => string) => void = () => {}, deps: React.DependencyList = []) => {
   useEffect(() => {
     if (!process.stdin.isRaw) process.stdin.setRawMode?.(true)
   }, [])

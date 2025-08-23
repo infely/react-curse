@@ -1,5 +1,3 @@
-import process from 'node:process'
-
 /**
  * @deprecated
  */

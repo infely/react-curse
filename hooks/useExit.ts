@@ -1,5 +1,5 @@
 import Renderer from '../renderer'
-import process from 'node:process'
+import process from 'process'
 
 /**
  * @deprecated

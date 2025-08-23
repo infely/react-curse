@@ -9,7 +9,7 @@ Sleep 250ms
 Type@250ms kkjkkkjjjj
 Sleep 250ms */
 import ReactCurse, { Text, useInput } from '..'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 const App = () => {
   const [counter, setCounter] = useState(0)

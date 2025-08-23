@@ -7,7 +7,6 @@ Sleep 40ms
 Show
 Sleep 2s */
 import ReactCurse, { Text, Trail, useInput } from '..'
-import React from 'react'
 
 const App = () => {
   useInput()

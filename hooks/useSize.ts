@@ -1,4 +1,3 @@
-import process from 'node:process'
 import { useEffect, useState } from 'react'
 
 const subscribers = new Set<(size: { width: number; height: number }) => void>()

@@ -1,6 +1,5 @@
 /* @vhs 80x3@1 */
 import ReactCurse, { Separator, useInput } from '..'
-import React from 'react'
 
 const App = () => {
   useInput()

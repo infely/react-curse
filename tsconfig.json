@@ -1,7 +1,32 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "jsx": "preserve"
+    /* Core */
+    "target": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "allowJs": false,
+    "checkJs": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+
+    /* Strictness */
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* React / JSX */
+    "jsx": "react-jsx",
+
+    /* Paths */
+    // "baseUrl": "./src",
+
+    /* Output (for build tools like Vite, CRA, Next.js etc.) */
+    "noEmit": true
   },
-  "files": []
+  /* "include": ["src"], */
+  "exclude": ["node_modules", "dist", "build", "create/template"]
 }

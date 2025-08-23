@@ -14,6 +14,7 @@ class Term {
   cursor = { x: 0, y: 0 }
   maxCursor = { x: 0, y: 0 }
   result: any
+
   init(fullscreen: boolean, print: boolean) {
     this.fullscreen = fullscreen
     this.print = print
@@ -30,17 +31,20 @@ class Term {
     }
     this.append(`${ESC}[?25l`) // make cursor invisible
   }
+
   reinit() {
     this.prevModifier = {}
     this.prevBuffer = undefined
     this.append(`${ESC}[?1049h${ESC}c${ESC}[?25l`) // enables the alternative buffer, clear screen, make cursor invisible
   }
+
   onExit = (code: number) => {
     if (code !== 0) return
 
     process.stdout.write(this.terminate())
     process.exit(0)
   }
+
   terminate() {
     process.off('exit', this.onExit)
 
@@ -58,16 +62,20 @@ class Term {
     if (this.isMouseEnabled) sequence.push(`${ESC}[?1000l`) // disable mouse
     return sequence.join('')
   }
+
   append(value: string) {
     this.nextWritePrefix += value
   }
+
   setResult(result: any) {
     this.result = result
   }
+
   enableMouse() {
     this.append(`${ESC}[?1000h${ESC}[?1005h`) // enable mouse
     this.isMouseEnabled = true
   }
+
   // termGetCursor() {
   //   process.stdin.setRawMode(true)
   //   process.stdout.write('\x1b[6n')
@@ -85,6 +93,7 @@ class Term {
   //     })
   //   })
   // }
+
   parseHexColor(color: string) {
     if (!color.match(/^([\da-f]{6})|([\da-f]{3})$/i)) return
 
@@ -97,6 +106,7 @@ class Term {
         : (color.substring(1, 7).match(/.{2}/g) as any)
     ).map((i: string) => parseInt(i, 16))
   }
+
   parseColor(color: Color | string | number, offset = 0) {
     if (typeof color === 'number') {
       if (color < 0 || color > 255) throw new Error('color not found')
@@ -126,10 +136,11 @@ class Term {
       brightcyan: 96,
       brightwhite: 97
     }
-    const colorFromName = names[color.toLowerCase()]
+    const colorFromName = (names as any)[color.toLowerCase()]
     if (colorFromName === undefined) throw new Error('color not found')
     return colorFromName + offset
   }
+
   createModifierSequence(modifier: Modifier) {
     if (JSON.stringify(modifier) === '{}') return '0'
 
@@ -150,10 +161,12 @@ class Term {
 
     return sequence.join(';')
   }
+
   isIcon(char: string) {
     const code = char.charCodeAt(0)
     return (code >= 9211 && code <= 9214) || [9829, 9889, 11096].includes(code) || (code >= 57344 && code <= 64838)
   }
+
   render(buffer: Char[][]) {
     let result = ''
 
@@ -182,10 +195,13 @@ class Term {
             })
             .filter(i => i !== undefined)
 
-      const chunks = {}
+      const chunks: Record<string, [any, any]> = {}
       let chunksAt = 0
       diffLine.forEach((value, x: number) => {
-        if (value === null) return (chunksAt = x + 1)
+        if (value === null) {
+          chunksAt = x + 1
+          return
+        }
 
         const [char, modifier] = value
         if (chunks[chunksAt] === undefined) chunks[chunksAt] = ['', '']
@@ -213,26 +229,26 @@ class Term {
           }
 
           if (y !== this.cursor.y && x !== this.cursor.x) {
-            result += `${ESC}[${y + 1};${x + 1}H` // moves cursor to position
+            result += `${ESC}[${y + 1};${x + 1}H` // move cursor to position
           } else if (y > this.cursor.y) {
             const diff = y - this.cursor.y
-            result += `${ESC}[${diff > 1 ? diff : ''}B` // moves cursor down
+            result += `${ESC}[${diff > 1 ? diff : ''}B` // move cursor down
           } else if (y < this.cursor.y) {
             const diff = this.cursor.y - y
-            result += `${ESC}[${diff > 1 ? diff : ''}A` // moves cursor up
+            result += `${ESC}[${diff > 1 ? diff : ''}A` // move cursor up
           } else if (x > this.cursor.x) {
             if (includesEmoji || includesIcon) {
-              result += `${ESC}[G${ESC}[${x > 1 ? x : ''}C` // moves cursor to column, moves cursor right
+              result += `${ESC}[G${ESC}[${x > 1 ? x : ''}C` // move cursor to column, move cursor right
             } else {
               const diff = x - this.cursor.x
-              result += `${ESC}[${diff > 1 ? diff : ''}C` // moves cursor right
+              result += `${ESC}[${diff > 1 ? diff : ''}C` // move cursor right
             }
           } else if (x < this.cursor.x) {
             if (includesEmoji) {
-              result += `${ESC}[G${ESC}[${x > 1 ? x : ''}C` // moves cursor left
+              result += `${ESC}[G${ESC}[${x > 1 ? x : ''}C` // move cursor to start, move cursor right
             } else {
               const diff = this.cursor.x - x
-              result += `${ESC}[${diff > 1 ? diff : ''}D` // moves cursor left
+              result += `${ESC}[${diff > 1 ? diff : ''}D` // move cursor left
             }
           }
         }

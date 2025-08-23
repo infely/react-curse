@@ -50,21 +50,26 @@ class Screen {
   buffer: Char[][]
   cursor = { x: 0, y: 0 }
   size = { x1: 0, y1: 0, x2: 0, y2: 0 }
+
   constructor() {
     this.buffer = this.generateBuffer()
   }
+
   generateBuffer() {
     this.size = { x1: 0, y1: 0, x2: process.stdout.columns, y2: process.stdout.rows }
     return [...Array(this.size.y2)].map(() => [...Array(this.size.x2)].map(() => [' ', {}] as Char))
   }
+
   clearBuffer() {
     this.buffer = this.generateBuffer()
     this.cursor = { x: 0, y: 0 }
   }
+
   render(elements: TextElement[]) {
     this.clearBuffer()
     this.renderElement(elements, { ...this.cursor, ...this.size })
   }
+
   stringAt(value: string, limit: number) {
     const percent = parseFloat(value)
     let diff = ''
@@ -75,6 +80,7 @@ class Screen {
 
     return Math.round((limit / 100) * percent) + parseInt(diff || '0')
   }
+
   renderElement(element: ReactElement | ReactElement[] | any, prevBounds: Bounds, prevProps: TextProps = {}) {
     if (Array.isArray(element)) return element.forEach(i => this.renderElement(i, prevBounds, prevProps))
 
@@ -122,7 +128,7 @@ class Screen {
 
     const modifiers = Object.fromEntries(
       ['color', 'background', 'bold', 'dim', 'italic', 'underline', 'blinking', 'inverse', 'strikethrough']
-        .map(i => [i, props[i] ?? prevProps[i]])
+        .map(i => [i, props[i] ?? (prevProps as any)[i]])
         .filter(i => i[1])
     )
     if ((props.background || props.clear) && (props.width || props.height))
@@ -130,7 +136,7 @@ class Screen {
 
     if (Array.isArray(children) || children?.props) {
       this.renderElement(element.children, bounds, modifiers)
-    } else if (children) {
+    } else if (typeof children === 'number' || children) {
       const text = children.toString()
       if (text.includes('\n')) {
         const lines = children.toString().split('\n')
@@ -149,6 +155,7 @@ class Screen {
       this.cursor.y = props.block ? bounds.y2 : prevBounds.y
     }
   }
+
   fill(bounds: Bounds, prevBounds: Bounds, modifiers: TextProps) {
     for (let y = bounds.y; y < bounds.y2; y++) {
       if (y < Math.max(0, prevBounds.y1) || y >= Math.min(prevBounds.y2, this.buffer.length)) continue
@@ -159,6 +166,7 @@ class Screen {
       }
     }
   }
+
   put(text: string, bounds: Bounds, modifiers: TextProps) {
     const { x, y } = bounds
 
@@ -172,6 +180,7 @@ class Screen {
 
     return x + i
   }
+
   carret(bounds: Bounds) {
     this.cursor.x = bounds.x ?? 0
     this.cursor.y++

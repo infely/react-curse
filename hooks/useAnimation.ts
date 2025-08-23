@@ -21,13 +21,13 @@ const interpolateColor = (toLow: string, toHigh: string, fromLow: number, fromHi
   )
 }
 
-export const Trail = ({ delay, children }: { delay: number; children: any }): JSX.Element => {
+export const Trail = ({ delay, children }: { delay: number; children: any }): React.JSX.Element => {
   return useTrail(delay, children)
 }
 
 export const useTrail = (delay: number, children: any[], key: string = 'key'): any => {
   const ms = useRef(0)
-  const timeout = useRef<NodeJS.Timeout>()
+  const timeout = useRef<NodeJS.Timeout>(undefined)
   const [keys, setKeys] = useState<any[]>([])
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export default (time = Infinity, fps = 60): useAnimation => {
   if (time <= 0 || fps <= 0) return { ms: 0, interpolate: i => i, interpolateColor: i => i }
 
   const at = useRef(Date.now())
-  const interval = useRef<NodeJS.Timeout>()
+  const interval = useRef<NodeJS.Timeout>(undefined)
   const [ms, setMs] = useState(0)
 
   useEffect(() => {

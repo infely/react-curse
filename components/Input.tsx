@@ -1,8 +1,8 @@
 import useInput from '../hooks/useInput'
 import Renderer from '../renderer'
 import { Color } from '../screen'
-import Text, { type TextProps } from './Text'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import Text, { TextProps } from './Text'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 const mutate = (value: string, pos: number, str: string, multiline: boolean): [string, number, string | null] => {
   const edit = (value: string, pos: number, callback: (string: string) => string) => {

@@ -1,14 +1,13 @@
 import ReactCurse, { Block, Input, List, Text, useInput, useSize } from '..'
 import useAnimation, { useTrail } from '../hooks/useAnimation'
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 const Task = ({ title, completed, selected }: { title: string; completed: boolean; selected: boolean }) => {
   const { interpolateColor } = useAnimation(250)
 
   return (
     <Text color={interpolateColor('#282828', selected ? '#b8bb26' : '#ebdbb2')} block>
-      {completed ? ' ' : ' '}
-      {title}
+      {completed ? '' : ''} {title}
     </Text>
   )
 }

@@ -1,8 +1,7 @@
 import useSize from '../hooks/useSize'
-import Text, { type TextProps } from './Text'
-import React from 'react'
+import Text, { TextProps } from './Text'
 
-interface BlockProps extends TextProps {
+export interface BlockProps extends TextProps {
   width?: number | undefined
   align?: 'left' | 'center' | 'right'
   children: any

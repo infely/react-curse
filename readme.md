@@ -56,7 +56,7 @@ ReactCurse.render(<App text="hello world" />)
 #### How to handle input
 
 ```jsx
-import React, { useState } from 'react'
+import { useState } from 'react'
 import ReactCurse, { Text, useInput, exit } from 'react-curse'
 
 const App = () => {

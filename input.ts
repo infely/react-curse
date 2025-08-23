@@ -1,4 +1,4 @@
-import EventEmitter from 'node:events'
+import EventEmitter from 'events'
 
 export default class Input {
   ee: EventEmitter
@@ -7,11 +7,12 @@ export default class Input {
   constructor() {
     this.ee = new EventEmitter()
   }
+
   terminate() {
     this.ee.removeAllListeners()
   }
 
-  #onData = (key: Buffer) => {
+  private onData = (key: Buffer) => {
     const raw = key.toString()
     const chunks = this.parse(raw)
 
@@ -54,13 +55,15 @@ export default class Input {
     return chunks
   }
   on(callback: (input: string, raw: () => string) => void) {
-    if (this.ee.listenerCount('data') === 0) process.stdin.on('data', this.#onData)
+    if (this.ee.listenerCount('data') === 0) process.stdin.on('data', this.onData)
     this.ee.on('data', callback)
   }
+
   off(callback: (input: string, raw: () => string) => void) {
     this.ee.off('data', callback)
-    if (this.ee.listenerCount('data') === 0) process.stdin.off('data', this.#onData)
+    if (this.ee.listenerCount('data') === 0) process.stdin.off('data', this.onData)
   }
+
   render() {
     const chunk = this.queue.shift()
     if (chunk) setTimeout(() => this.ee.emit('data', chunk), 0)

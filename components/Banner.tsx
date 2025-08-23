@@ -31,11 +31,11 @@ const Letter = ({ children }: { children: string }) => {
   return <>{text}</>
 }
 
-interface BannerProps extends TextProps {
+export interface BannerProps extends TextProps {
   children: string
 }
 
-export default function Banner({ children, ...props }: BannerProps): JSX.Element | null {
+export default function Banner({ children, ...props }: BannerProps) {
   if (children === undefined || children === null) return null
 
   const lines = children.toString().split('\n')

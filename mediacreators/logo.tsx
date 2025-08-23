@@ -9,13 +9,15 @@ Sleep 40ms
 Show
 Sleep 10s */
 import ReactCurse, { Bar, Text, useAnimation, useInput } from '..'
-import React from 'react'
 
 const splitLine = (line: string) => {
-  const chunks = {}
+  const chunks: Record<string, any> = {}
   let chunksAt = 0
   line.split('').forEach((value, x: number) => {
-    if (value !== ' ') return (chunksAt = x + 1)
+    if (value !== ' ') {
+      chunksAt = x + 1
+      return
+    }
     if (chunks[chunksAt] === undefined) chunks[chunksAt] = ['']
     chunks[chunksAt] += value
   })

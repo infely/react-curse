@@ -1,9 +1,9 @@
 import useInput from '../hooks/useInput'
 import useSize from '../hooks/useSize'
-import { getYO, inputHandler, type ListBase, type ListPos } from './List'
+import { getYO, inputHandler, ListBase, ListPos } from './List'
 import Scrollbar from './Scrollbar'
 import Text from './Text'
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 const getX = (index: number, widths: number[]) => {
   const [x1, x2] = widths.reduce((acc, i, k) => [acc[0] + (k < index ? i : 0), acc[1] + (k <= index ? i : 0)], [0, 0])
@@ -19,7 +19,7 @@ const getXO = (offsetX: number, limit: number, x1: number, x2: number) => {
 interface ListTableProps extends ListBase {
   mode?: 'cell' | 'row'
   head?: any[]
-  renderHead?: (_: any) => React.ReactNode
+  renderHead?: (_: any) => any
   data?: any[][]
 }
 
