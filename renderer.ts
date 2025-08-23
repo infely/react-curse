@@ -25,11 +25,12 @@ class Renderer {
 
   render(reactElement: ReactElement, options = { fullscreen: true, print: false }) {
     this.term = new Term()
-    this.term.init(options.fullscreen, options.print)
-    this.reconciler.updateContainer(
-      reactElement,
-      this.reconciler.createContainer(this.container, 0, null, false, null, '', () => {}, null)
-    )
+    this.term.init(options.fullscreen, options.print).then(() => {
+      this.reconciler.updateContainer(
+        reactElement,
+        this.reconciler.createContainer(this.container, 0, null, false, null, '', () => {}, null)
+      )
+    })
   }
 
   inline(reactElement: ReactElement, options = { fullscreen: false, print: false }) {
@@ -66,7 +67,10 @@ class Renderer {
   terminate(value: any) {
     this.container.terminate()
     this.input.terminate()
-    this.term?.terminate()
+    if (this.term) {
+      this.term.terminate()
+      // process.stdout.write(this.term.terminate())
+    }
     this.callback?.(value)
   }
 

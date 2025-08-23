@@ -89,4 +89,4 @@ export const Logo = ({ ...props }) => {
   )
 }
 
-ReactCurse.render(<Logo />)
+// ReactCurse.render(<Logo />)

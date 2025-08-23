@@ -111,4 +111,4 @@ const App = () => {
   )
 }
 
-ReactCurse.render(<App />)
+ReactCurse.inline(<App />)

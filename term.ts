@@ -11,16 +11,21 @@ class Term {
   prevBuffer: Char[][] | undefined
   prevModifier: Modifier = {}
   nextWritePrefix = ''
+  size = { width: process.stdout.columns, height: process.stdout.rows }
+  offset = { x: 0, y: 0 }
   cursor = { x: 0, y: 0 }
   maxCursor = { x: 0, y: 0 }
   result: any
 
-  init(fullscreen: boolean, print: boolean) {
+  async init(fullscreen: boolean, print: boolean) {
     this.fullscreen = fullscreen
     this.print = print
 
     process.stdout.on('resize', () => {
       this.isResized = true
+
+      // this.offset.y += process.stdout.rows - this.size.height
+      this.size = { width: process.stdout.columns, height: process.stdout.rows }
     })
 
     process.on('exit', this.onExit)
@@ -28,6 +33,9 @@ class Term {
     if (fullscreen) {
       this.append(`${ESC}[?1049h`) // enables the alternative buffer
       this.append(`${ESC}c`) // clear screen
+    } else {
+      const cursor = await this.termGetCursor()
+      this.offset = cursor
     }
     this.append(`${ESC}[?25l`) // make cursor invisible
   }
@@ -76,23 +84,23 @@ class Term {
     this.isMouseEnabled = true
   }
 
-  // termGetCursor() {
-  //   process.stdin.setRawMode(true)
-  //   process.stdout.write('\x1b[6n')
-  //   return new Promise(resolve => {
-  //     process.stdin.on('data', data => {
-  //       const [x, y] = data
-  //         .toString()
-  //         .slice(2, -1)
-  //         .split(';')
-  //         .reverse()
-  //         .map(i => parseInt(i) - 1)
-  //       resolve({ x, y })
-  //       // process.stdin.unref()
-  //       // process.stdin.setRawMode(false)
-  //     })
-  //   })
-  // }
+  async termGetCursor(): Promise<{ x: number; y: number }> {
+    process.stdin.setRawMode(true)
+    process.stdout.write('\x1b[6n')
+    return await new Promise(resolve => {
+      process.stdin.once('data', data => {
+        const [x, y] = data
+          .toString()
+          .slice(2, -1)
+          .split(';')
+          .reverse()
+          .map(i => parseInt(i) - 1)
+        resolve({ x, y })
+        // process.stdin.unref()
+        // process.stdin.setRawMode(false)
+      })
+    })
+  }
 
   parseHexColor(color: string) {
     if (!color.match(/^([\da-f]{6})|([\da-f]{3})$/i)) return
@@ -168,12 +176,15 @@ class Term {
   }
 
   render(buffer: Char[][]) {
+    let full = false
     let result = ''
 
-    const { isResized } = this
-    if (isResized) {
-      result += `${ESC}[H` // moves cursor to home position
-      this.cursor = { x: 0, y: 0 }
+    if (this.isResized) {
+      if (this.fullscreen) {
+        result += `${ESC}[H` // moves cursor to home position
+        this.cursor = { x: 0, y: 0 }
+        full = true
+      }
       this.isResized = false
     }
 
@@ -183,15 +194,13 @@ class Term {
       let includesEmoji = false
       let includesIcon = false
 
-      const diffLine = isResized
+      const diffLine = full
         ? line
         : line
             .map((i: Char, x: number) => {
               const [prevChar, prevModifier] = prevLine && prevLine[x] ? prevLine[x] : [' ', {}]
               const [char, modifier] = i
-              return this.isResized || prevChar !== char || JSON.stringify(prevModifier) !== JSON.stringify(modifier)
-                ? i
-                : null
+              return prevChar !== char || JSON.stringify(prevModifier) !== JSON.stringify(modifier) ? i : null
             })
             .filter(i => i !== undefined)
 
@@ -221,15 +230,19 @@ class Term {
 
         if (x === 0 && y === this.cursor.y + 1) {
           result += '\n'
+          if (y > this.maxCursor.y) this.offset.y -= 1
         } else {
           if (!this.fullscreen && y > this.cursor.y && y > this.maxCursor.y) {
             const diff = y - this.maxCursor.y
             result += '\n'.repeat(diff)
             this.cursor = { y: this.cursor.y + diff, x: 0 }
+
+            const rows = this.offset.y + y - (process.stdout.rows - 1)
+            if (rows > 0) this.offset.y -= rows
           }
 
           if (y !== this.cursor.y && x !== this.cursor.x) {
-            result += `${ESC}[${y + 1};${x + 1}H` // move cursor to position
+            result += `${ESC}[${y + 1 + this.offset.y};${x + 1}H` // move cursor to position
           } else if (y > this.cursor.y) {
             const diff = y - this.cursor.y
             result += `${ESC}[${diff > 1 ? diff : ''}B` // move cursor down
@@ -278,6 +291,7 @@ class Term {
       if (this.print) return Renderer.terminate(result)
 
       process.stdout.write(result)
+      // log(/* Date.now(), */ result)
     }
 
     if (this.result !== undefined) {

@@ -1,6 +1,6 @@
 {
   "name": "react-curse",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "Fastest terminal UI for react (TUI, CLI, curses-like)",
   "keywords": [
     "ansi",
