@@ -229,8 +229,11 @@ class Term {
         if (!includesIcon && str.split('').find((i: string) => this.isIcon(i))) includesIcon = true
 
         if (x === 0 && y === this.cursor.y + 1) {
+          if (!this.fullscreen && y > this.maxCursor.y) {
+            this.offset.y -= 1
+          }
+
           result += '\n'
-          if (y > this.maxCursor.y) this.offset.y -= 1
         } else {
           if (!this.fullscreen && y > this.cursor.y && y > this.maxCursor.y) {
             const diff = y - this.maxCursor.y
