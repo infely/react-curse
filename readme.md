@@ -31,6 +31,7 @@ You can easily build full-scale terminal UI applications like:
 
 - [mngr](https://github.com/infely/mngr) - Database manager supports mongodb, mysql/mariadb, postgresql, sqlite and json-server
 - [nfi](https://github.com/infely/nfi) - Simple nerd fonts icons cheat sheet that allows you to quickly find and copy glyph to clipboard
+- [cosmo](https://github.com/turutupa/cosmo) - A tool for visualizing graphs on terminal. And it allows you to pan around and search by id/value nodes, and in the near future edit/remove/add nodes too
 
 ## Installation
 
